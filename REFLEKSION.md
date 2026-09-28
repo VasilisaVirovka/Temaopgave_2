@@ -1,6 +1,6 @@
 # Refleksion – Figma til kode
 
-**Gruppemedlemmer:** Skriv begge navne her.
+**Gruppemedlemmer:** Vasilisa Virovka
 
 ## Sådan bruger I filen
 
@@ -79,3 +79,13 @@ Hvis I har brugt AI til en væsentlig del af løsningen, så beskriv kort:
 - Hvad lærte I, og hvordan kontrollerede I løsningen?
 
 Hvis I ikke har brugt AI, kan I blot skrive det. I skal ikke indsætte en komplet chatlog.
+
+# Procesnoter
+
+28. september 2026 – Grundstruktur
+
+Jeg startede med at etablere den fælles struktur for websitet. Header, footer og login-knap blev oprettet som genanvendelige komponenter og koblet på det fælles Layout.astro.
+
+Jeg udvidede samtidig tokens.css med genbrugelige værdier for spacing, typografi og border-radius, så værdierne kan genbruges på tværs af komponenterne i stedet for at definere dem individuelt.
+
+Jeg committede denne milepæl til GitHub, så udviklingen af projektet kan følges løbende.
