@@ -1,0 +1,212 @@
+---
+import { Image } from "astro:assets";
+import CEOImage from "@assets/images/ceo.webp";
+---
+
+<div class="hero-container">
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Empowering Your Business Growth</h1>
+
+      <p>
+        Discover tailored strategies and expert insights to take your business
+        to the next level. Let us help you navigate challenges and achieve
+        sustainable success.
+      </p>
+
+      <div class="hero-actions">
+        <a class="primary-button" href="#0"> Book a Meeting </a>
+
+        <a class="secondary-button" href="#0">
+          Learn More
+          <span aria-hidden="true">→</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="hero-image">
+      <Image src={CEOImage} alt="CEO" />
+    </div>
+  </section>
+</div>
+
+<style>
+  @layer components {
+    .hero-container {
+      container-type: inline-size;
+      inline-size: 100%;
+      min-inline-size: 0;
+    }
+
+    .hero {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: stretch;
+      min-block-size: 500px;
+      overflow: hidden;
+
+      background-color: var(--color-neutrals-900);
+      color: var(--color-on-surface-elevated);
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset-block-end: 0;
+      inset-inline-start: 0;
+
+      inline-size: 52%;
+      block-size: 70%;
+
+      background-image:
+        linear-gradient(
+          to right,
+          transparent 0,
+          transparent calc(100% - 1px),
+          rgb(255 255 255 / 0.08) calc(100% - 1px)
+        ),
+        linear-gradient(
+          to bottom,
+          transparent 0,
+          transparent calc(100% - 1px),
+          rgb(255 255 255 / 0.08) calc(100% - 1px)
+        );
+
+      background-size: 50px 50px;
+
+      mask-image: linear-gradient(
+        to right,
+        transparent 0%,
+        rgb(0 0 0 / 0.15) 15%,
+        black 45%,
+        black 100%
+      );
+
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+
+      align-self: center;
+      max-inline-size: 600px;
+      margin-inline-start: 8rem;
+      padding: var(--space-8) 2rem;
+    }
+
+    .hero h1 {
+      position: relative;
+      margin: 0;
+      max-inline-size: 560px;
+
+      font-size: var(--text-h1);
+      line-height: 1;
+      letter-spacing: -0.03em;
+    }
+
+    .hero h1 {
+      position: relative;
+      margin: 0;
+      max-inline-size: 560px;
+
+      font-size: var(--text-h1);
+      line-height: 1;
+      letter-spacing: -0.03em;
+    }
+
+    .hero h1::before {
+      content: "";
+      position: absolute;
+
+      inset-inline-end: 100%;
+      inset-block-start: 52%;
+
+      inline-size: clamp(120px, 18vw, 230px);
+      block-size: 3px;
+
+      background-color: var(--color-action);
+    }
+
+    .hero p {
+      max-inline-size: 560px;
+      margin-block: var(--space-4);
+
+      color: var(--color-neutrals-200);
+      line-height: 1.6;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-3);
+    }
+
+    .hero-actions a {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+
+      border-radius: var(--radius-pill);
+      padding: 0.75rem 1.25rem;
+
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .primary-button {
+      background-color: var(--color-action);
+      color: var(--color-text);
+    }
+
+    .secondary-button {
+      border: 1px solid var(--color-neutrals-400);
+      background-color: transparent;
+      color: var(--color-on-surface-elevated);
+    }
+
+    .hero-image {
+      position: relative;
+      z-index: 1;
+
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      min-inline-size: 0;
+    }
+
+    .hero-image img {
+      display: block;
+      inline-size: 100%;
+      block-size: 100%;
+      max-block-size: 500px;
+
+      object-fit: cover;
+      object-position: center top;
+    }
+
+    @container (max-width: 700px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-content {
+        padding-block: var(--space-7);
+      }
+
+      .hero-image {
+        min-block-size: 350px;
+      }
+
+      .hero-image img {
+        max-block-size: 400px;
+      }
+
+      .hero::before {
+        inline-size: 100%;
+      }
+    }
+  }
+</style>
