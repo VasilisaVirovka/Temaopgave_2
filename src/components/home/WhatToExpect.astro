@@ -1,42 +1,199 @@
+---
+import { Image } from "astro:assets";
+import WhatToExpectImage from "@assets/images/WhatToExpect.png";
+import Tick from "@assets/images/Tick.png";
+import GreenShape from "@assets/images/Image.png";
+---
+
 <section class="what-to-expect">
-  <p>WELL WORK WITH YOU</p>
+  <div class="what-to-expect-image">
+    <Image src={WhatToExpectImage} alt="Team discussing business strategy" />
 
-  <h2>What To Expect</h2>
+    <Image class="green-shape" src={GreenShape} alt="" />
+  </div>
 
-  <p>
-    Our collaboration is built on transparency, efficiency, and measurable
-    results. Together, we create strategies tailored to your unique needs and
-    goals.
-  </p>
+  <div class="what-to-expect-content">
+    <p class="eyebrow">WELL WORK WITH YOU</p>
 
-  <div class="expectations">
-    <article>
-      <h3>Collaborate</h3>
-      <p>
-        Collaborate to build actionable strategies that drive sustainable growth
-        and deliver tangible outcomes.
-      </p>
-    </article>
+    <h2>What To Expect</h2>
 
-    <article>
-      <h3>Optimize</h3>
-      <p>
-        Identify opportunities to optimize processes and implement impactful
-        solutions with measurable results.
-      </p>
-    </article>
+    <p class="intro">
+      Our collaboration is built on transparency, efficiency, and measurable
+      results. Together, we create strategies tailored to your unique needs and
+      goals.
+    </p>
+
+    <div class="expectations">
+      <article>
+        <div class="article-heading">
+          <Image class="expectation-tick" src={Tick} alt="" />
+
+          <h3>Collaborate</h3>
+        </div>
+
+        <p>
+          Collaborate to build actionable strategies that drive sustainable
+          growth and deliver tangible outcomes.
+        </p>
+      </article>
+
+      <article>
+        <div class="article-heading">
+          <Image class="expectation-tick" src={Tick} alt="" />
+
+          <h3>Optimize</h3>
+        </div>
+
+        <p>
+          Identify opportunities to optimize processes and implement impactful
+          solutions with measurable results.
+        </p>
+      </article>
+    </div>
   </div>
 </section>
 
 <style>
   @layer components {
     .what-to-expect {
-      padding: var(--space-8) 2rem;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      align-items: center;
+      gap: clamp(3rem, 5vw, 5rem);
+
+      max-inline-size: 1200px;
+      margin-inline: auto;
+      padding: 6rem 2rem;
+    }
+
+    .what-to-expect-image {
+      position: relative;
+      isolation: isolate;
+
+      inline-size: 100%;
+    }
+
+    .what-to-expect-image > :global(img:first-child) {
+      position: relative;
+      z-index: 2;
+
+      display: block;
+      inline-size: 100%;
+      block-size: auto;
+
+      border-radius: var(--radius-lg);
+    }
+
+    /*
+      Dekorativt hak bag hovedbilledet.
+      Stablingskonteksten holder z-indekset lokalt for denne komponent.
+    */
+    .image-tick {
+      position: absolute;
+      z-index: 1;
+
+      inset-inline-start: -0.6rem;
+      inset-block-start: -0.6rem;
+
+      inline-size: 22px;
+      block-size: 22px;
+    }
+
+    /*
+      Dekorativ grøn firkant bagved billedet.
+    */
+    .green-shape {
+      position: absolute;
+      z-index: -1;
+
+      inset-inline-start: -1.5rem;
+      inset-block-start: -1.5rem;
+
+      inline-size: 183px;
+      block-size: 164px;
+    }
+
+    .what-to-expect-content {
+      align-self: center;
+      max-inline-size: 540px;
+    }
+
+    .eyebrow {
+      margin: 0 0 var(--space-2);
+
+      color: var(--color-text-muted);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+
+    .what-to-expect h2 {
+      margin: 0;
+
+      font-size: clamp(1.75rem, 3vw, 2.5rem);
+      line-height: 1.05;
+    }
+
+    .intro {
+      margin-block: var(--space-3) var(--space-5);
+
+      color: var(--color-text-muted);
+      font-size: 0.95rem;
+      line-height: 1.45;
     }
 
     .expectations {
       display: grid;
-      gap: var(--space-6);
+      gap: var(--space-4);
+    }
+
+    .expectations article {
+      padding-block-end: var(--space-3);
+    }
+
+    .article-heading {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+    }
+
+    .expectation-tick {
+      flex: 0 0 auto;
+
+      inline-size: 22px;
+      block-size: 22px;
+    }
+
+    .article-heading h3 {
+      margin: 0;
+
+      font-size: 1.25rem;
+      line-height: 1.15;
+    }
+
+    .expectations article > p {
+      margin: var(--space-2) 0 0;
+
+      color: var(--color-text-muted);
+      font-size: 0.9rem;
+      line-height: 1.45;
+    }
+
+    @media (max-width: 800px) {
+      .what-to-expect {
+        grid-template-columns: 1fr;
+        gap: var(--space-7);
+        padding-block: var(--space-8);
+      }
+
+      .what-to-expect-content {
+        max-inline-size: none;
+      }
+
+      .green-shape {
+        inset-inline-end: -1rem;
+        inset-block-end: -1rem;
+      }
     }
   }
 </style>
