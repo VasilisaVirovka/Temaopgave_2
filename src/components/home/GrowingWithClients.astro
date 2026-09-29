@@ -1,18 +1,302 @@
 <section class="growing-with-clients">
-  <p>Growing with our Clients</p>
+  <div class="grid-background" aria-hidden="true"></div>
 
-  <h2>Our core values &amp; principles</h2>
+  <div class="growing-inner">
+    <div class="growing-header">
+      <div class="growing-intro">
+        <p class="eyebrow">Growing with our Clients</p>
 
-  <p>
-    Capitalize on low hanging fruit to identify a ballpark value added activity
-    beta test. Override the digital divide with additional from DevOps.
-  </p>
+        <h2>Our core values &amp; principles</h2>
+
+        <p class="intro">
+          Capitalize on low hanging fruit to identify a ballpark value added
+          activity beta test. Override the digital divide with additional from
+          DevOps.
+        </p>
+      </div>
+
+      <a class="contact-button" href="#contact">Get in touch</a>
+    </div>
+
+    <div class="values-grid">
+      <article class="value-card">
+        <div class="value-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24">
+            <path
+              d="M12 3l2.1 6.9L21 12l-6.9 2.1L12 21l-2.1-6.9L3 12l6.9-2.1L12 3z"
+            ></path>
+          </svg>
+        </div>
+
+        <h3>Creative Ideas</h3>
+
+        <p>
+          Explore innovative strategies tailored to your goals. Unlock unique
+          solutions that inspire growth and creativity. Drive impactful change.
+        </p>
+
+        <a href="#contact">Read More</a>
+      </article>
+
+      <article class="value-card">
+        <div class="value-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24">
+            <rect x="4" y="4" width="16" height="16" rx="2"></rect>
+            <path d="M8 16V11"></path>
+            <path d="M12 16V8"></path>
+            <path d="M16 16v-3"></path>
+          </svg>
+        </div>
+
+        <h3>Best Features</h3>
+
+        <p>
+          Deliver advanced tools designed for seamless integration. Optimize
+          workflows with cutting-edge technology.
+        </p>
+
+        <a href="#contact">Read More</a>
+      </article>
+
+      <article class="value-card">
+        <div class="value-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="8"></circle>
+            <path d="M8.5 12a3.5 3.5 0 0 0 7 0"></path>
+            <path d="M10 9.5a2.5 2.5 0 0 1 4.5 1.5"></path>
+          </svg>
+        </div>
+
+        <h3>Experience</h3>
+
+        <p>
+          Leverage years of proven expertise across diverse industries. Empower
+          your business with our skilled professionals. Achieve sustainable
+          success.
+        </p>
+
+        <a href="#contact">Read More</a>
+      </article>
+
+      <article class="value-card">
+        <div class="value-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path
+              d="M19 12a7 7 0 0 0-.2-1.6l1.5-1.1-1.6-2.7-1.8.7a7 7 0 0 0-2.8-1.6L14 3.8h-3.2l-.3 1.9a7 7 0 0 0-2.8 1.6l-1.8-.7-1.6 2.7 1.5 1.1A7 7 0 0 0 5.6 12c0 .5.1 1.1.2 1.6l-1.5 1.1 1.6 2.7 1.8-.7a7 7 0 0 0 2.8 1.6l.3 1.9H14l.3-1.9a7 7 0 0 0 2.8-1.6l1.8.7 1.6-2.7-1.5-1.1c.1-.5.2-1 .2-1.6z"
+            ></path>
+          </svg>
+        </div>
+
+        <h3>Easy Solutions</h3>
+
+        <p>
+          Streamline your challenges with simple, effective solutions. Ensure
+          hassle-free implementation for measurable results.
+        </p>
+
+        <a href="#contact">Read More</a>
+      </article>
+    </div>
+  </div>
 </section>
 
 <style>
-  @layer components {
-    .growing-with-clients {
-      padding: var(--space-8) 2rem;
+  .growing-with-clients {
+    position: relative;
+    overflow: hidden;
+    background-color: var(--color-neutrals-900);
+    color: var(--color-neutrals-50);
+  }
+
+  /* Decorative grid */
+  .grid-background {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+
+    background-image:
+      linear-gradient(to right, rgb(255 255 255 / 0.07) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(255 255 255 / 0.07) 1px, transparent 1px);
+
+    background-size: 50px 50px;
+
+    /*
+      The grid is strongest in the middle
+      and fades away towards both sides.
+    */
+    mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      black 18%,
+      black 82%,
+      transparent 100%
+    );
+
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      black 18%,
+      black 82%,
+      transparent 100%
+    );
+  }
+
+  .growing-inner {
+    position: relative;
+    z-index: 1;
+
+    max-inline-size: 1200px;
+    margin-inline: auto;
+    padding: 5rem 2rem;
+  }
+
+  .growing-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 3rem;
+    margin-block-end: 2rem;
+  }
+
+  .growing-intro {
+    max-inline-size: 650px;
+  }
+
+  .eyebrow {
+    margin: 0 0 var(--space-2);
+    color: var(--color-neutrals-200);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .growing-with-clients h2 {
+    margin: 0;
+    color: var(--color-neutrals-50);
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.05;
+  }
+
+  .intro {
+    max-inline-size: 650px;
+    margin: var(--space-3) 0 0;
+    color: var(--color-neutrals-400);
+    font-size: 0.85rem;
+    line-height: 1.5;
+  }
+
+  .contact-button {
+    flex: 0 0 auto;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-pill);
+    background-color: var(--color-neutrals-50);
+    color: var(--color-neutrals-900);
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .contact-button:hover,
+  .contact-button:focus-visible {
+    background-color: var(--color-action);
+  }
+
+  .values-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+
+  .value-card {
+    min-block-size: 220px;
+    padding: 1.5rem;
+    border-radius: var(--radius-lg);
+    background-color: var(--color-neutrals-50);
+    color: var(--color-neutrals-900);
+  }
+
+  .value-icon {
+    display: grid;
+    place-items: center;
+    inline-size: 2.5rem;
+    block-size: 2.5rem;
+    margin-block-end: 1.5rem;
+    border-radius: 50%;
+    background-color: var(--color-neutrals-900);
+    color: var(--color-neutrals-50);
+  }
+
+  .value-icon svg {
+    inline-size: 1.1rem;
+    block-size: 1.1rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .value-card h3 {
+    margin: 0;
+    font-size: 1.15rem;
+    line-height: 1.2;
+  }
+
+  .value-card p {
+    margin: var(--space-3) 0 0;
+    color: var(--color-text-muted);
+    font-size: 0.8rem;
+    line-height: 1.5;
+  }
+
+  .value-card a {
+    display: inline-block;
+    margin-block-start: 1rem;
+    color: var(--color-neutrals-900);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .value-card a:hover,
+  .value-card a:focus-visible {
+    text-decoration: underline;
+  }
+
+  @media (max-width: 900px) {
+    .values-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 700px) {
+    .growing-header {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    .values-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .grid-background {
+      mask-image: linear-gradient(
+        to right,
+        transparent 0%,
+        black 10%,
+        black 90%,
+        transparent 100%
+      );
+
+      -webkit-mask-image: linear-gradient(
+        to right,
+        transparent 0%,
+        black 10%,
+        black 90%,
+        transparent 100%
+      );
     }
   }
 </style>
