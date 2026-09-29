@@ -1,102 +1,60 @@
-<section class="growing-with-clients">
+---
+import DynamicIcon from "@components/shared/DynamicIcon.astro";
+
+type CoreValue = {
+  icon: string;
+  title: string;
+  description: string;
+  link?: {
+    text: string;
+    url: string;
+  };
+};
+
+type CoreValuesData = {
+  eyebrow: string;
+  title: string;
+  subtitle: string;
+  values: CoreValue[];
+};
+
+const coreValuesData: CoreValuesData = await fetch(
+  "https://ftk-api.pages.dev/core-values",
+).then((res) => res.json());
+---
+
+<section class="growing-with-clients" aria-labelledby="core-values-title">
   <div class="grid-background" aria-hidden="true"></div>
 
   <div class="growing-inner">
     <div class="growing-header">
       <div class="growing-intro">
-        <p class="eyebrow">Growing with our Clients</p>
+        <p class="eyebrow">{coreValuesData.eyebrow}</p>
 
-        <h2>Our core values &amp; principles</h2>
+        <h2 id="core-values-title">{coreValuesData.title}</h2>
 
-        <p class="intro">
-          Capitalize on low hanging fruit to identify a ballpark value added
-          activity beta test. Override the digital divide with additional from
-          DevOps.
-        </p>
+        <p class="intro">{coreValuesData.subtitle}</p>
       </div>
 
       <a class="contact-button" href="#contact">Get in touch</a>
     </div>
 
     <div class="values-grid">
-      <article class="value-card">
-        <div class="value-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24">
-            <path
-              d="M12 3l2.1 6.9L21 12l-6.9 2.1L12 21l-2.1-6.9L3 12l6.9-2.1L12 3z"
-            ></path>
-          </svg>
-        </div>
+      {
+        coreValuesData.values.map((value) => (
+          <article class="value-card">
+            <div class="value-icon" aria-hidden="true">
+              <DynamicIcon name={value.icon} />
+            </div>
 
-        <h3>Creative Ideas</h3>
+            <h3>{value.title}</h3>
 
-        <p>
-          Explore innovative strategies tailored to your goals. Unlock unique
-          solutions that inspire growth and creativity. Drive impactful change.
-        </p>
+            <p>{value.description}</p>
 
-        <a href="#contact">Read More</a>
-      </article>
-
-      <article class="value-card">
-        <div class="value-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24">
-            <rect x="4" y="4" width="16" height="16" rx="2"></rect>
-            <path d="M8 16V11"></path>
-            <path d="M12 16V8"></path>
-            <path d="M16 16v-3"></path>
-          </svg>
-        </div>
-
-        <h3>Best Features</h3>
-
-        <p>
-          Deliver advanced tools designed for seamless integration. Optimize
-          workflows with cutting-edge technology.
-        </p>
-
-        <a href="#contact">Read More</a>
-      </article>
-
-      <article class="value-card">
-        <div class="value-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24">
-            <circle cx="12" cy="12" r="8"></circle>
-            <path d="M8.5 12a3.5 3.5 0 0 0 7 0"></path>
-            <path d="M10 9.5a2.5 2.5 0 0 1 4.5 1.5"></path>
-          </svg>
-        </div>
-
-        <h3>Experience</h3>
-
-        <p>
-          Leverage years of proven expertise across diverse industries. Empower
-          your business with our skilled professionals. Achieve sustainable
-          success.
-        </p>
-
-        <a href="#contact">Read More</a>
-      </article>
-
-      <article class="value-card">
-        <div class="value-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24">
-            <circle cx="12" cy="12" r="3"></circle>
-            <path
-              d="M19 12a7 7 0 0 0-.2-1.6l1.5-1.1-1.6-2.7-1.8.7a7 7 0 0 0-2.8-1.6L14 3.8h-3.2l-.3 1.9a7 7 0 0 0-2.8 1.6l-1.8-.7-1.6 2.7 1.5 1.1A7 7 0 0 0 5.6 12c0 .5.1 1.1.2 1.6l-1.5 1.1 1.6 2.7 1.8-.7a7 7 0 0 0 2.8 1.6l.3 1.9H14l.3-1.9a7 7 0 0 0 2.8-1.6l1.8.7 1.6-2.7-1.5-1.1c.1-.5.2-1 .2-1.6z"
-            ></path>
-          </svg>
-        </div>
-
-        <h3>Easy Solutions</h3>
-
-        <p>
-          Streamline your challenges with simple, effective solutions. Ensure
-          hassle-free implementation for measurable results.
-        </p>
-
-        <a href="#contact">Read More</a>
-      </article>
+            {value.link && <a href={value.link.url}>{value.link.text}</a>}
+          </article>
+        ))
+      }
     </div>
   </div>
 </section>
@@ -105,6 +63,7 @@
   .growing-with-clients {
     position: relative;
     overflow: hidden;
+    container-type: inline-size;
     background-color: var(--color-neutrals-900);
     color: var(--color-neutrals-50);
   }
@@ -265,13 +224,13 @@
     text-decoration: underline;
   }
 
-  @media (max-width: 900px) {
+  @container (max-width: 900px) {
     .values-grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
 
-  @media (max-width: 700px) {
+  @container (max-width: 700px) {
     .growing-header {
       align-items: flex-start;
       flex-direction: column;
