@@ -1,10 +1,13 @@
 ---
 import { Image } from "astro:assets";
 import CEOImage from "@assets/images/ceo.webp";
+import YellowLine from "@assets/images/Rectangle_yellow.svg";
 ---
 
 <div class="hero-container">
   <section class="hero">
+    <Image class="yellow-line" src={YellowLine} alt="" />
+
     <div class="hero-content">
       <h1>Empowering Your Business Growth</h1>
 
@@ -15,7 +18,7 @@ import CEOImage from "@assets/images/ceo.webp";
       </p>
 
       <div class="hero-actions">
-        <a class="primary-button" href="#0"> Book a Meeting </a>
+        <a class="primary-button" href="#0">Book a Meeting</a>
 
         <a class="secondary-button" href="#0">
           Learn More
@@ -53,9 +56,8 @@ import CEOImage from "@assets/images/ceo.webp";
     .hero::before {
       content: "";
       position: absolute;
-      inset-block-end: 0;
       inset-inline-start: 0;
-
+      inset-block-end: 0;
       inline-size: 52%;
       block-size: 70%;
 
@@ -86,47 +88,33 @@ import CEOImage from "@assets/images/ceo.webp";
       pointer-events: none;
     }
 
+    .yellow-line {
+      position: absolute;
+      inset-inline-start: 0;
+      inset-block-start: 34%;
+      z-index: 1;
+
+      inline-size: 360px;
+      block-size: 7px;
+    }
+
     .hero-content {
       position: relative;
-      z-index: 1;
+      z-index: 2;
 
       align-self: center;
       max-inline-size: 600px;
-      margin-inline-start: 8rem;
+      margin-inline-start: clamp(2rem, 6vw, 5rem);
       padding: var(--space-8) 2rem;
     }
 
     .hero h1 {
-      position: relative;
       margin: 0;
       max-inline-size: 560px;
 
-      font-size: var(--text-h1);
-      line-height: 1;
+      font-size: clamp(2.5rem, 4vw, 3.5rem);
+      line-height: 1.05;
       letter-spacing: -0.03em;
-    }
-
-    .hero h1 {
-      position: relative;
-      margin: 0;
-      max-inline-size: 560px;
-
-      font-size: var(--text-h1);
-      line-height: 1;
-      letter-spacing: -0.03em;
-    }
-
-    .hero h1::before {
-      content: "";
-      position: absolute;
-
-      inset-inline-end: 100%;
-      inset-block-start: 52%;
-
-      inline-size: clamp(120px, 18vw, 230px);
-      block-size: 3px;
-
-      background-color: var(--color-action);
     }
 
     .hero p {
@@ -187,12 +175,19 @@ import CEOImage from "@assets/images/ceo.webp";
       object-position: center top;
     }
 
+    @container (max-width: 950px) {
+      .yellow-line {
+        display: none;
+      }
+    }
+
     @container (max-width: 700px) {
       .hero {
         grid-template-columns: 1fr;
       }
 
       .hero-content {
+        margin-inline-start: 0;
         padding-block: var(--space-7);
       }
 
