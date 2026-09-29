@@ -1,64 +1,277 @@
-<section class="financial-tools">
-  <p>Financial Tools</p>
+---
+import DynamicIcon from "@components/shared/DynamicIcon.astro";
 
-  <h2>Financial Tools</h2>
+type FinancialTool = {
+  icon: string;
+  title: string;
+  description: string;
+  link: {
+    text: string;
+    url: string;
+  };
+};
 
-  <div class="financial-tools-grid">
-    <article>
-      <h3>Financial Projections</h3>
-      <p>
-        Financial projections are essential for planning and monitoring a
-        company's performance. They provide insights into potential revenue,
-        expenses, and profitability over specific periods.
-      </p>
-    </article>
+type FinancialData = {
+  eyebrow: string;
+  title: string;
+  subtitle: string;
+  values: FinancialTool[];
+};
 
-    <article>
-      <h3>The Balance Sheet</h3>
-      <p>
-        The Balance Sheet is a summary of the assets and liabilities and equity
-        of a business at a specific point of time.
-      </p>
-    </article>
+const financialData: FinancialData = await fetch(
+  "https://ftk-api.pages.dev/financial-projections",
+).then((res) => res.json());
+---
 
-    <article>
-      <h3>Income Statement</h3>
-      <p>
-        The Income (Profit and Loss) Statement, commonly referred to as the
-        P&amp;L statement, summarizes the revenue and expenses for a specific
-        time period.
-      </p>
-    </article>
+<section class="financial-tools" aria-labelledby="financial-tools-title">
+  <div class="financial-tools-header">
+    <div class="financial-tools-heading">
+      <p class="eyebrow">{financialData.eyebrow}</p>
 
-    <article>
-      <h3>Financial Plan</h3>
-      <p>
-        Keep your information current and review the documents on a regular
-        basis (monthly or more often if needed). Review them with key
-        individuals within your company.
-      </p>
-    </article>
+      <h2 id="financial-tools-title">{financialData.title}</h2>
 
-    <article>
-      <h3>Financial Ratios</h3>
-      <p>
-        Ratios are useful when comparing your company with the competition on
-        financial performance and also when benchmarking the performance of your
-        company.
-      </p>
-    </article>
+      <p class="intro">{financialData.subtitle}</p>
+    </div>
+
+    <div
+      class="financial-tools-controls"
+      aria-label="Financial tools navigation"
+    >
+      <button
+        class="slider-button"
+        type="button"
+        data-direction="previous"
+        aria-label="Previous financial tools"
+      >
+        <span aria-hidden="true">←</span>
+      </button>
+
+      <button
+        class="slider-button"
+        type="button"
+        data-direction="next"
+        aria-label="Next financial tools"
+      >
+        <span aria-hidden="true">→</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="financial-tools-slider">
+    <div class="financial-tools-track">
+      {
+        financialData.values.map((tool) => (
+          <article class="financial-tool">
+            <div class="financial-tool-icon" aria-hidden="true">
+              <DynamicIcon name={tool.icon} />
+            </div>
+
+            <h3>{tool.title}</h3>
+
+            <p>{tool.description}</p>
+          </article>
+        ))
+      }
+    </div>
   </div>
 </section>
+
+<script>
+  const slider = document.querySelector(".financial-tools-track");
+  const previousButton = document.querySelector('[data-direction="previous"]');
+  const nextButton = document.querySelector('[data-direction="next"]');
+
+  if (slider && previousButton && nextButton) {
+    const getScrollAmount = () => {
+      const card = slider.querySelector(".financial-tool");
+
+      if (!card) {
+        return 0;
+      }
+
+      const cardWidth = card.getBoundingClientRect().width;
+      const styles = window.getComputedStyle(slider);
+      const gap = parseFloat(styles.columnGap) || 0;
+
+      return cardWidth + gap;
+    };
+
+    previousButton.addEventListener("click", () => {
+      slider.scrollBy({
+        left: -getScrollAmount(),
+        behavior: "smooth",
+      });
+    });
+
+    nextButton.addEventListener("click", () => {
+      slider.scrollBy({
+        left: getScrollAmount(),
+        behavior: "smooth",
+      });
+    });
+  }
+</script>
 
 <style>
   @layer components {
     .financial-tools {
-      padding: var(--space-8) 2rem;
+      max-inline-size: 1200px;
+      margin-inline: auto;
+      padding: 6rem 2rem;
+
+      background-color: var(--color-neutrals-200);
+
+      overflow: hidden;
     }
 
-    .financial-tools-grid {
-      display: grid;
+    .financial-tools-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
       gap: var(--space-6);
+
+      margin-block-end: var(--space-8);
+    }
+
+    .financial-tools-heading {
+      max-inline-size: 560px;
+    }
+
+    .eyebrow {
+      margin: 0 0 var(--space-2);
+
+      color: var(--color-text);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+
+    .financial-tools h2 {
+      margin: 0;
+
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1.05;
+    }
+
+    .intro {
+      max-inline-size: 520px;
+      margin: var(--space-3) 0 0;
+
+      color: var(--color-text-muted);
+      font-size: 0.95rem;
+      line-height: 1.45;
+    }
+
+    .financial-tools-controls {
+      display: flex;
+      flex: 0 0 auto;
+      gap: var(--space-3);
+    }
+
+    .slider-button {
+      display: grid;
+      place-items: center;
+
+      inline-size: 3rem;
+      block-size: 3rem;
+
+      padding: 0;
+      border: 0;
+      border-radius: 50%;
+
+      background-color: var(--color-neutrals-900);
+      color: var(--color-on-ui-primary);
+
+      font-size: 1.25rem;
+      cursor: pointer;
+    }
+
+    .slider-button:hover,
+    .slider-button:focus-visible {
+      background-color: var(--color-surface-elevated);
+    }
+
+    .financial-tools-slider {
+      overflow: hidden;
+    }
+
+    .financial-tools-track {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: calc((100% - 4.5rem) / 4);
+      gap: 1.5rem;
+
+      overflow-x: auto;
+      overscroll-behavior-inline: contain;
+      scroll-behavior: smooth;
+      scroll-snap-type: inline mandatory;
+
+      scrollbar-width: none;
+    }
+
+    .financial-tools-track::-webkit-scrollbar {
+      display: none;
+    }
+
+    .financial-tool {
+      min-inline-size: 0;
+      scroll-snap-align: start;
+    }
+
+    .financial-tool-icon {
+      display: block;
+
+      inline-size: 2rem;
+      block-size: 2rem;
+
+      margin-block-end: var(--space-3);
+    }
+
+    .financial-tool-icon :global(svg) {
+      display: block;
+
+      inline-size: 100%;
+      block-size: 100%;
+    }
+
+    .financial-tool h3 {
+      margin: 0 0 var(--space-2);
+
+      font-size: 1.1rem;
+      line-height: 1.15;
+    }
+
+    .financial-tool p {
+      margin: 0;
+
+      color: var(--color-text-muted);
+      font-size: 0.85rem;
+      line-height: 1.45;
+    }
+
+    @media (max-width: 1000px) {
+      .financial-tools-track {
+        grid-auto-columns: calc((100% - 1.5rem) / 2);
+      }
+    }
+
+    @media (max-width: 700px) {
+      .financial-tools {
+        padding-block: var(--space-8);
+      }
+
+      .financial-tools-header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .financial-tools-controls {
+        align-self: flex-end;
+      }
+
+      .financial-tools-track {
+        grid-auto-columns: 100%;
+      }
     }
   }
 </style>
