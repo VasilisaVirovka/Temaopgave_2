@@ -1,42 +1,203 @@
-<section class="experience">
-  <p>Experience</p>
+---
+type ExperienceStat = {
+  label: string;
+  value: number;
+};
 
-  <h2>More than 25 years of experience</h2>
+type ExperienceData = {
+  eyebrow: string;
+  title: string;
+  subtitle: string;
+  stats: ExperienceStat[];
+};
 
-  <p>3000+ our clients are insured around the World</p>
+const experienceData: ExperienceData = await fetch(
+  "https://ftk-api.pages.dev/experience",
+).then((res) => res.json());
+---
 
-  <div class="experience-stats">
-    <article>
-      <strong>85%</strong>
-      <span>Consistency</span>
-    </article>
+<section class="experience" aria-labelledby="experience-title">
+  <div class="experience-inner">
+    <div class="experience-content">
+      <p class="eyebrow">{experienceData.eyebrow}</p>
 
-    <article>
-      <strong>95%</strong>
-      <span>Improvement</span>
-    </article>
+      <h2 id="experience-title">{experienceData.title}</h2>
 
-    <article>
-      <strong>90%</strong>
-      <span>Branching</span>
-    </article>
+      <div class="clients">
+        <span> 3000+ our clients are insured around the World</span>
+      </div>
+    </div>
+
+    <div class="experience-stats">
+      {
+        experienceData.stats.map((stat) => (
+          <figure
+            class="stat-card"
+            data-value={stat.value}
+            style={`--value: ${stat.value}; --value-percent: ${stat.value}%;`}
+          >
+            <div class="stat-graphic">
+              <svg viewBox="0 0 100 100" aria-hidden="true">
+                <circle class="progress" pathLength="100" />
+                <circle class="marker" r="3" />
+              </svg>
+            </div>
+
+            <figcaption>{stat.label}</figcaption>
+          </figure>
+        ))
+      }
+    </div>
   </div>
 </section>
 
 <style>
   @layer components {
     .experience {
-      padding: var(--space-8) 2rem;
+      inline-size: 100%;
+      background-color: var(--color-yellow-500);
+    }
+
+    .experience-inner {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      align-items: center;
+      gap: 4rem;
+      max-inline-size: 1200px;
+      min-block-size: 300px;
+      margin-inline: auto;
+      padding: 3rem 2rem;
+    }
+
+    .experience-content {
+      max-inline-size: 390px;
+      margin-inline-start: 5rem;
+    }
+
+    .eyebrow {
+      margin: 0 0 1rem;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .experience h2 {
+      max-inline-size: 390px;
+      margin: 0;
+      font-size: clamp(2rem, 3.5vw, 2.75rem);
+      line-height: 1.05;
+    }
+
+    .clients {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-block-start: 1.25rem;
+    }
+
+    .clients strong {
+      font-size: 2rem;
+      line-height: 1;
+    }
+
+    .clients span {
+      max-inline-size: 220px;
+      font-size: 0.65rem;
+      line-height: 1.25;
     }
 
     .experience-stats {
-      display: grid;
-      gap: var(--space-4);
+      display: flex;
+      justify-content: space-between;
+      gap: 2rem;
     }
 
-    .experience-stats article {
+    .stat-card {
+      flex: 1 1 0;
       display: grid;
-      gap: var(--space-1);
+      grid-template-areas:
+        "stat"
+        "label";
+      justify-items: center;
+      margin: 0;
+      container-type: inline-size;
+    }
+
+    .stat-card::before {
+      content: attr(data-value) "%";
+      grid-area: stat;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      font-size: 24cqw;
+      font-weight: 600;
+    }
+
+    .stat-graphic {
+      grid-area: stat;
+      inline-size: min(135px, 100%);
+      aspect-ratio: 1;
+    }
+
+    .stat-graphic svg {
+      display: block;
+      inline-size: 100%;
+      block-size: 100%;
+      overflow: visible;
+      rotate: -90deg;
+    }
+
+    .progress {
+      cx: 50;
+      cy: 50;
+      r: 46;
+      fill: none;
+      stroke: white;
+      stroke-width: 2;
+      stroke-dasharray: 100;
+      stroke-dashoffset: calc(100 - var(--value));
+      stroke-linecap: round;
+    }
+
+    .marker {
+      fill: var(--color-neutrals-900);
+      offset-path: circle(46px at 50px 50px);
+      offset-distance: var(--value-percent);
+    }
+
+    .stat-card figcaption {
+      grid-area: label;
+      margin-block-start: 0.65rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    @media (max-width: 800px) {
+      .experience-inner {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+        padding-block: 4rem;
+      }
+
+      .experience-content {
+        margin-inline-start: 0;
+      }
+
+      .experience-stats {
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 500px) {
+      .experience-inner {
+        padding-inline: 1.5rem;
+      }
+
+      .experience-stats {
+        gap: 1rem;
+      }
     }
   }
 </style>

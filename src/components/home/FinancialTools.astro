@@ -24,54 +24,56 @@ const financialData: FinancialData = await fetch(
 ---
 
 <section class="financial-tools" aria-labelledby="financial-tools-title">
-  <div class="financial-tools-header">
-    <div class="financial-tools-heading">
-      <p class="eyebrow">{financialData.eyebrow}</p>
+  <div class="financial-tools-inner">
+    <div class="financial-tools-header">
+      <div class="financial-tools-heading">
+        <p class="eyebrow">{financialData.eyebrow}</p>
 
-      <h2 id="financial-tools-title">{financialData.title}</h2>
+        <h2 id="financial-tools-title">{financialData.title}</h2>
 
-      <p class="intro">{financialData.subtitle}</p>
+        <p class="intro">{financialData.subtitle}</p>
+      </div>
+
+      <div
+        class="financial-tools-controls"
+        aria-label="Financial tools navigation"
+      >
+        <button
+          class="slider-button"
+          type="button"
+          data-direction="previous"
+          aria-label="Previous financial tools"
+        >
+          <span aria-hidden="true">←</span>
+        </button>
+
+        <button
+          class="slider-button"
+          type="button"
+          data-direction="next"
+          aria-label="Next financial tools"
+        >
+          <span aria-hidden="true">→</span>
+        </button>
+      </div>
     </div>
 
-    <div
-      class="financial-tools-controls"
-      aria-label="Financial tools navigation"
-    >
-      <button
-        class="slider-button"
-        type="button"
-        data-direction="previous"
-        aria-label="Previous financial tools"
-      >
-        <span aria-hidden="true">←</span>
-      </button>
+    <div class="financial-tools-slider">
+      <div class="financial-tools-track">
+        {
+          financialData.values.map((tool) => (
+            <article class="financial-tool">
+              <div class="financial-tool-icon" aria-hidden="true">
+                <DynamicIcon name={tool.icon} />
+              </div>
 
-      <button
-        class="slider-button"
-        type="button"
-        data-direction="next"
-        aria-label="Next financial tools"
-      >
-        <span aria-hidden="true">→</span>
-      </button>
-    </div>
-  </div>
+              <h3>{tool.title}</h3>
 
-  <div class="financial-tools-slider">
-    <div class="financial-tools-track">
-      {
-        financialData.values.map((tool) => (
-          <article class="financial-tool">
-            <div class="financial-tool-icon" aria-hidden="true">
-              <DynamicIcon name={tool.icon} />
-            </div>
-
-            <h3>{tool.title}</h3>
-
-            <p>{tool.description}</p>
-          </article>
-        ))
-      }
+              <p>{tool.description}</p>
+            </article>
+          ))
+        }
+      </div>
     </div>
   </div>
 </section>
@@ -115,13 +117,14 @@ const financialData: FinancialData = await fetch(
 <style>
   @layer components {
     .financial-tools {
+      inline-size: 100%;
+      background-color: var(--color-neutrals-200);
+    }
+
+    .financial-tools-inner {
       max-inline-size: 1200px;
       margin-inline: auto;
       padding: 6rem 2rem;
-
-      background-color: var(--color-neutrals-200);
-
-      overflow: hidden;
     }
 
     .financial-tools-header {
@@ -256,7 +259,7 @@ const financialData: FinancialData = await fetch(
     }
 
     @media (max-width: 700px) {
-      .financial-tools {
+      .financial-tools-inner {
         padding-block: var(--space-8);
       }
 
