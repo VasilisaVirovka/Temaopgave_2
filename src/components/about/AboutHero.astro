@@ -1,0 +1,96 @@
+<section class="about-hero" aria-labelledby="about-title">
+  <div class="about-hero-inner">
+    <p class="eyebrow">ABOUT</p>
+
+    <div class="title-wrapper">
+      <h1 id="about-title">Igniting Innovation</h1>
+      <span class="yellow-line" aria-hidden="true"></span>
+    </div>
+
+    <p class="intro">
+      Our strength lies in the collaboration between our talented teams and
+      esteemed clients. We cultivate a workplace that champions innovation,
+      promotes peak performance, and guarantees client satisfaction.
+    </p>
+  </div>
+</section>
+
+<style>
+  @layer components {
+    .about-hero {
+      position: relative;
+      inline-size: 100%;
+      background-color: var(--color-surface-primary);
+      color: var(--color-neutrals-900);
+    }
+
+    .about-hero-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-inline-size: 1200px;
+      min-block-size: 120px;
+      margin-inline: auto;
+      padding: 3.5rem 2rem 4rem;
+      text-align: center;
+    }
+
+    .eyebrow {
+      margin: 0 0 var(--space-2);
+      color: var(--color-text-muted);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .title-wrapper {
+      position: relative;
+      display: inline-block;
+    }
+
+    .about-hero h1 {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      font-size: clamp(2rem, 4vw, 2.75rem);
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+    }
+
+    .yellow-line {
+      position: absolute;
+      z-index: 0;
+      inset-inline-start: 0;
+      inset-block-end: -0.35rem;
+      inline-size: calc(50vw + 50%);
+      block-size: 3px;
+      border-radius: var(--radius-pill);
+      background-color: var(--color-action);
+    }
+
+    .intro {
+      max-inline-size: 540px;
+      margin: var(--space-4) 0 0;
+      color: var(--color-text-muted);
+      font-size: 0.85rem;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 600px) {
+      .about-hero-inner {
+        min-block-size: 220px;
+        padding: var(--space-7) 1.5rem var(--space-8);
+      }
+
+      .about-hero h1 {
+        font-size: clamp(1.8rem, 8vw, 2.4rem);
+      }
+
+      .intro {
+        max-inline-size: 450px;
+        font-size: 0.8rem;
+      }
+    }
+  }
+</style>
