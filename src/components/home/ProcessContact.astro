@@ -1,42 +1,214 @@
-<section class="process-contact">
-  <div class="process">
-    <p>Process</p>
+---
+import { Image } from "astro:assets";
 
-    <h2>It's Easy.</h2>
+import ContactImage from "@assets/images/contact-main.png";
+import PhoneIcon from "@assets/images/Icon_phone.svg";
+import TimeIcon from "@assets/images/Icon_time.svg";
+import PlaceIcon from "@assets/images/Icon_place.svg";
+---
 
-    <p>
-      Leverage agile frameworks to provide a robust synopsis for high level
-      overviews. Iterative approaches to corporate strategy foster
-      collaborative.
-    </p>
-  </div>
+<section class="process-contact" id="contact" aria-labelledby="contact-title">
+  <div class="process-contact-inner">
+    <div class="process-content">
+      <p class="eyebrow">PROCESS</p>
 
-  <div class="contact">
-    <h2>Contact Us</h2>
+      <h2 id="contact-title">Contact Us. It’s Easy.</h2>
 
-    <p>Call Today</p>
-    <a href="tel:+1800100900">+1 800 100 900</a>
+      <p class="intro">
+        Leverage agile frameworks to provide a robust synopsis for high level
+        overviews. Iterative approaches to corporate strategy foster
+        collaborative.
+      </p>
 
-    <p>Monday To Friday 9AM 5PM</p>
+      <div class="contact-details">
+        <div class="contact-detail">
+          <Image
+            class="contact-icon"
+            src={PhoneIcon}
+            alt=""
+            aria-hidden="true"
+          />
 
-    <address>
-      USA Office<br />
-      195 Devonshire St<br />
-      Boston, MA 02110
-    </address>
+          <div class="contact-detail-text">
+            <span>Call Today</span>
+            <a href="tel:+1800100900">+1 800 100 900</a>
+          </div>
+        </div>
+
+        <div class="contact-detail">
+          <Image
+            class="contact-icon"
+            src={TimeIcon}
+            alt=""
+            aria-hidden="true"
+          />
+
+          <div class="contact-detail-text">
+            <span>Monday To Friday</span>
+            <strong>9AM - 5PM</strong>
+          </div>
+        </div>
+
+        <div class="contact-detail">
+          <Image
+            class="contact-icon"
+            src={PlaceIcon}
+            alt=""
+            aria-hidden="true"
+          />
+
+          <div class="contact-detail-text">
+            <span>USA Office</span>
+
+            <address>195 Devonshire St Boston, MA 02110</address>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="contact-image">
+      <Image src={ContactImage} alt="Team members collaborating in an office" />
+    </div>
   </div>
 </section>
 
 <style>
-  @layer components {
-    .process-contact {
-      display: grid;
-      gap: var(--space-8);
-      padding: var(--space-8) 2rem;
+  .process-contact {
+    inline-size: 100%;
+    background-color: #ffffff;
+    color: var(--color-neutrals-900);
+  }
+
+  .process-contact-inner {
+    display: grid;
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    align-items: center;
+    gap: clamp(3rem, 6vw, 6rem);
+
+    max-inline-size: 1200px;
+    margin-inline: auto;
+    padding: 5.5rem 2rem;
+  }
+
+  .process-content {
+    max-inline-size: 430px;
+  }
+
+  .eyebrow {
+    margin: 0 0 var(--space-2);
+    color: var(--color-text-muted);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .process-contact h2 {
+    margin: 0;
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+  }
+
+  .intro {
+    max-inline-size: 410px;
+    margin: var(--space-3) 0 2rem;
+    color: var(--color-text-muted);
+    font-size: 0.85rem;
+    line-height: 1.5;
+  }
+
+  .contact-details {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .contact-detail {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .contact-icon {
+    flex: 0 0 auto;
+    inline-size: 2.5rem;
+    block-size: 2.5rem;
+  }
+
+  .contact-detail-text {
+    display: grid;
+    gap: 0.15rem;
+  }
+
+  .contact-detail-text span {
+    color: var(--color-text-muted);
+    font-size: 0.7rem;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  .contact-detail-text a,
+  .contact-detail-text strong,
+  .contact-detail-text address {
+    margin: 0;
+    color: var(--color-neutrals-900);
+    font-size: 0.8rem;
+    font-weight: 700;
+    line-height: 1.35;
+  }
+
+  .contact-detail-text a {
+    text-decoration: none;
+  }
+
+  .contact-detail-text a:hover,
+  .contact-detail-text a:focus-visible {
+    text-decoration: underline;
+  }
+
+  .contact-detail-text address {
+    max-inline-size: 230px;
+    font-style: normal;
+  }
+
+  .contact-image {
+    inline-size: 100%;
+    max-inline-size: 720px;
+  }
+
+  .contact-image :global(img) {
+    display: block;
+    inline-size: 100%;
+    block-size: auto;
+  }
+
+  @media (max-width: 850px) {
+    .process-contact-inner {
+      grid-template-columns: 1fr;
+      gap: 3rem;
     }
 
-    .contact address {
-      font-style: normal;
+    .process-content {
+      max-inline-size: 600px;
+    }
+
+    .contact-image {
+      max-inline-size: 720px;
+      margin-inline: auto;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .process-contact-inner {
+      padding-block: var(--space-8);
+    }
+
+    .contact-details {
+      gap: 1.25rem;
+    }
+
+    .contact-image {
+      inline-size: 100%;
     }
   }
 </style>
