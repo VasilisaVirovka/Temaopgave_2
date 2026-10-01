@@ -1,0 +1,224 @@
+---
+import { Image } from "astro:assets";
+
+import SarahJasmine from "@assets/images/sarah_jasmine.png";
+import JohnCarter from "@assets/images/john_carter.png";
+---
+
+<section class="about-team" aria-labelledby="team-title">
+  <div class="about-team-inner">
+    <div class="team-header">
+      <div class="team-heading">
+        <p class="eyebrow">OUR TEAM</p>
+
+        <h2 id="team-title">We champion the bold</h2>
+
+        <p class="intro">
+          Our success stems from the synergy between dedicated teams and our
+          valued clients. We prioritize a company culture that fosters
+          exceptional productivity, ensures customer satisfaction.
+        </p>
+      </div>
+
+      <a class="team-button" href="/team"> Meet the Team </a>
+    </div>
+
+    <div class="team-grid">
+      <article class="team-card">
+        <div class="team-image">
+          <Image src={SarahJasmine} alt="Sarah Jasmine, CEO at Company" />
+        </div>
+
+        <div class="team-content">
+          <p class="team-role">CEO at Company</p>
+
+          <h3>Sarah Jasmine</h3>
+
+          <p class="team-description">
+            Driving innovation and leadership with a focus on strategic growth
+            and impactful decisions.
+          </p>
+        </div>
+      </article>
+
+      <article class="team-card">
+        <div class="team-image">
+          <Image src={JohnCarter} alt="John Carter, Manager" />
+        </div>
+
+        <div class="team-content">
+          <p class="team-role">Manager</p>
+
+          <h3>John Carter</h3>
+
+          <p class="team-description">
+            Expert in operational efficiency, ensuring smooth processes and
+            exceptional team performance.
+          </p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<style>
+  @layer components {
+    .about-team {
+      inline-size: 100%;
+      background-color: var(--color-surface-primary);
+      color: var(--color-neutrals-900);
+    }
+
+    .about-team-inner {
+      display: grid;
+      grid-template-columns: minmax(280px, 0.75fr) minmax(500px, 1.25fr);
+      align-items: start;
+      gap: clamp(4rem, 8vw, 8rem);
+      max-inline-size: 1000px;
+      margin-inline: auto;
+      padding: 5rem 2rem;
+    }
+
+    .team-header {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0;
+    }
+
+    .team-heading {
+      max-inline-size: 380px;
+    }
+
+    .eyebrow {
+      margin: 0 0 var(--space-2);
+      color: var(--color-text-muted);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .about-team h2 {
+      max-inline-size: 300px;
+      margin: 0;
+      color: var(--color-neutrals-900);
+      font-size: clamp(2rem, 3.5vw, 2.75rem);
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+    }
+
+    .intro {
+      max-inline-size: 380px;
+      margin: var(--space-3) 0 1.5rem;
+      color: var(--color-text-muted);
+      font-size: 0.75rem;
+      line-height: 1.45;
+    }
+
+    .team-button {
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--radius-pill);
+      background-color: var(--color-neutrals-900);
+      color: var(--color-neutrals-50);
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .team-button:hover,
+    .team-button:focus-visible {
+      background-color: var(--color-action);
+      color: var(--color-neutrals-900);
+    }
+
+    .team-grid {
+      display: grid;
+      gap: 1.5rem;
+    }
+
+    .team-card {
+      display: grid;
+      grid-template-columns: 145px minmax(0, 1fr);
+      align-items: center;
+      gap: 1.25rem;
+    }
+
+    .team-image {
+      inline-size: 145px;
+      aspect-ratio: 1;
+      overflow: hidden;
+      border-radius: var(--radius-md);
+    }
+
+    .team-image :global(img) {
+      display: block;
+      inline-size: 100%;
+      block-size: 100%;
+      object-fit: cover;
+    }
+
+    .team-content {
+      max-inline-size: 360px;
+    }
+
+    .team-role {
+      margin: 0 0 var(--space-2);
+      color: var(--color-text-muted);
+      font-size: 0.65rem;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .team-card h3 {
+      margin: 0;
+      color: var(--color-neutrals-900);
+      font-size: 1.05rem;
+      line-height: 1.2;
+    }
+
+    .team-description {
+      max-inline-size: 360px;
+      margin: var(--space-3) 0 0;
+      color: var(--color-text-muted);
+      font-size: 0.7rem;
+      line-height: 1.45;
+    }
+
+    @media (max-width: 800px) {
+      .about-team-inner {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+      }
+
+      .team-heading,
+      .intro {
+        max-inline-size: 600px;
+      }
+
+      .about-team h2 {
+        max-inline-size: 500px;
+      }
+    }
+
+    @media (max-width: 500px) {
+      .about-team-inner {
+        padding-block: var(--space-8);
+        padding-inline: 1.5rem;
+      }
+
+      .team-card {
+        grid-template-columns: 100px minmax(0, 1fr);
+        gap: 1rem;
+      }
+
+      .team-image {
+        inline-size: 100px;
+      }
+
+      .team-description {
+        font-size: 0.65rem;
+      }
+    }
+  }
+</style>
