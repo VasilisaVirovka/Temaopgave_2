@@ -1,0 +1,72 @@
+<section class="about-stats" aria-label="Company statistics">
+  <div class="about-stats-inner">
+    <div class="stat">
+      <strong>1128+</strong>
+      <span>Successful Work</span>
+    </div>
+
+    <div class="stat">
+      <strong>908+</strong>
+      <span>Team member</span>
+    </div>
+
+    <div class="stat">
+      <strong>258+</strong>
+      <span>Happy Customers</span>
+    </div>
+
+    <div class="stat">
+      <strong>564+</strong>
+      <span>Creative Idea</span>
+    </div>
+  </div>
+</section>
+
+<style>
+  @layer components {
+    .about-stats {
+      inline-size: 100%;
+      background-color: var(--color-surface-primary);
+    }
+
+    .about-stats-inner {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      max-inline-size: 1000px;
+      margin-inline: auto;
+      padding: 2rem;
+    }
+
+    .stat {
+      display: grid;
+      justify-items: center;
+      gap: 0.35rem;
+      text-align: center;
+    }
+
+    .stat strong {
+      color: var(--color-neutrals-900);
+      font-size: 1.8rem;
+      line-height: 1;
+    }
+
+    .stat span {
+      color: var(--color-text-muted);
+      font-size: 0.65rem;
+      line-height: 1.2;
+    }
+
+    @media (max-width: 700px) {
+      .about-stats-inner {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem 1rem;
+      }
+    }
+
+    @media (max-width: 450px) {
+      .about-stats-inner {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+  }
+</style>
