@@ -1,0 +1,176 @@
+---
+import { Image } from "astro:assets";
+import VisionImage from "@assets/images/AboutVision.png";
+---
+
+<section class="about-vision" aria-labelledby="vision-title">
+  <div class="about-vision-inner">
+    <div class="vision-content">
+      <p class="eyebrow">OUR VISION</p>
+
+      <h2 id="vision-title">Turn your ideas into reality.</h2>
+
+      <p class="intro">
+        Capitalize on low hanging fruit to identify a ballpark value added
+        activity beta test. Override the digital divide with additional from
+        DevOps.
+      </p>
+
+      <ul class="vision-points">
+        <li>
+          <span class="check-icon" aria-hidden="true">✓</span>
+          <span>
+            Bring to the table win-win survival strategies to ensure proactive
+            domination. At the end of the day.
+          </span>
+        </li>
+
+        <li>
+          <span class="check-icon" aria-hidden="true">✓</span>
+          <span>
+            Capitalize on low hanging fruit to identify a ballpark value added
+            activity to beta test override the digital.
+          </span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="vision-image">
+      <Image
+        src={VisionImage}
+        alt="Team members collaborating around a table"
+      />
+    </div>
+  </div>
+</section>
+
+<style>
+  @layer components {
+    .about-vision {
+      inline-size: 100%;
+      background-color: var(--color-surface-primary);
+      color: var(--color-neutrals-900);
+    }
+
+    .about-vision-inner {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      align-items: center;
+      gap: clamp(3rem, 6vw, 6rem);
+      max-inline-size: 1000px;
+      margin-inline: auto;
+      padding: 4rem 2rem 3rem;
+    }
+
+    .vision-content {
+      max-inline-size: 480px;
+    }
+
+    .eyebrow {
+      margin: 0 0 var(--space-2);
+      color: var(--color-text-muted);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .about-vision h2 {
+      margin: 0;
+      font-size: clamp(1.8rem, 3vw, 2.5rem);
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+    }
+
+    .intro {
+      max-inline-size: 470px;
+      margin: var(--space-3) 0 var(--space-4);
+      color: var(--color-text-muted);
+      font-size: 0.8rem;
+      line-height: 1.45;
+    }
+
+    .vision-points {
+      display: grid;
+      gap: var(--space-3);
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .vision-points li {
+      display: grid;
+      grid-template-columns: 1rem 1fr;
+      align-items: start;
+      gap: var(--space-2);
+      color: var(--color-text-muted);
+      font-size: 0.7rem;
+      line-height: 1.4;
+    }
+
+    .check-icon {
+      display: grid;
+      place-items: center;
+      inline-size: 0.9rem;
+      block-size: 0.9rem;
+      margin-block-start: 0.1rem;
+      border: 1.5px solid var(--color-green-600);
+      border-radius: 50%;
+      color: var(--color-green-600);
+      font-size: 0.6rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .vision-image {
+      position: relative;
+      isolation: isolate;
+      inline-size: 100%;
+      max-inline-size: 400px;
+      justify-self: end;
+    }
+
+    .vision-image :global(img) {
+      position: relative;
+      z-index: 2;
+      display: block;
+      inline-size: 100%;
+      block-size: auto;
+      border-radius: var(--radius-lg);
+    }
+
+    .green-shape {
+      position: absolute;
+      z-index: 1;
+      inset-inline-end: -0.8rem;
+      inset-block-start: -0.6rem;
+      inline-size: 4rem;
+      block-size: 4rem;
+      border-radius: var(--radius-md);
+      background-color: var(--color-green-400);
+    }
+
+    @media (max-width: 750px) {
+      .about-vision-inner {
+        grid-template-columns: 1fr;
+        gap: var(--space-7);
+        padding-block: var(--space-8);
+      }
+
+      .vision-content {
+        max-inline-size: none;
+      }
+
+      .vision-image {
+        justify-self: center;
+        max-inline-size: 500px;
+      }
+    }
+
+    @media (max-width: 500px) {
+      .about-vision-inner {
+        padding-inline: 1.5rem;
+      }
+    }
+  }
+</style>
