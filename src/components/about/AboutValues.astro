@@ -1,0 +1,220 @@
+---
+import DynamicIcon from "@components/shared/DynamicIcon.astro";
+
+type CoreValue = {
+  icon: string;
+  title: string;
+  description: string;
+  link?: {
+    text: string;
+    url: string;
+  };
+};
+
+type CoreValuesData = {
+  eyebrow: string;
+  title: string;
+  subtitle: string;
+  values: CoreValue[];
+};
+
+const coreValuesData: CoreValuesData = await fetch(
+  "https://ftk-api.pages.dev/core-values",
+).then((res) => res.json());
+---
+
+<section class="about-values" aria-labelledby="values-title">
+  <div class="about-values-inner">
+    <div class="values-header">
+      <div class="values-heading">
+        <p class="eyebrow">{coreValuesData.eyebrow}</p>
+
+        <h2 id="values-title">{coreValuesData.title}</h2>
+
+        <p class="intro">{coreValuesData.subtitle}</p>
+      </div>
+
+      <a class="contact-button" href="#contact">Get in touch</a>
+    </div>
+
+    <div class="values-grid">
+      {
+        coreValuesData.values.map((value) => (
+          <article class="value-card">
+            <div class="value-icon" aria-hidden="true">
+              <DynamicIcon name={value.icon} />
+            </div>
+
+            <h3>{value.title}</h3>
+
+            <p>{value.description}</p>
+
+            {value.link && (
+              <a href={value.link.url}>
+                {value.link.text}
+                <span aria-hidden="true"> →</span>
+              </a>
+            )}
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  @layer components {
+    .about-values {
+      inline-size: 100%;
+      background-color: var(--color-neutrals-50);
+      color: var(--color-neutrals-900);
+    }
+
+    .about-values-inner {
+      max-inline-size: 1200px;
+      margin-inline: auto;
+      padding: 5rem 2rem;
+    }
+
+    .values-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 3rem;
+      margin-block-end: 2.75rem;
+    }
+
+    .values-heading {
+      max-inline-size: 680px;
+    }
+
+    .eyebrow {
+      margin: 0 0 var(--space-2);
+      color: var(--color-text-muted);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .about-values h2 {
+      margin: 0;
+      color: var(--color-neutrals-900);
+      font-size: clamp(2.25rem, 4vw, 3.25rem);
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+    }
+
+    .intro {
+      max-inline-size: 620px;
+      margin: var(--space-3) 0 0;
+      color: var(--color-text-muted);
+      font-size: 0.85rem;
+      line-height: 1.5;
+    }
+
+    .contact-button {
+      flex: 0 0 auto;
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--radius-pill);
+      background-color: var(--color-neutrals-900);
+      color: var(--color-neutrals-50);
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .contact-button:hover,
+    .contact-button:focus-visible {
+      background-color: var(--color-action);
+      color: var(--color-neutrals-900);
+    }
+
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1.25rem;
+    }
+
+    .value-card {
+      min-block-size: 210px;
+      padding: 1.5rem;
+      border-radius: var(--radius-lg);
+      background-color: var(--color-surface-primary);
+      color: var(--color-neutrals-900);
+    }
+
+    .value-icon {
+      display: grid;
+      place-items: center;
+      inline-size: 2.5rem;
+      block-size: 2.5rem;
+      margin-block-end: 1.5rem;
+      border-radius: 50%;
+      background-color: var(--color-neutrals-900);
+      color: var(--color-neutrals-50);
+    }
+
+    .value-icon :global(svg) {
+      display: block;
+      inline-size: 1rem;
+      block-size: 1rem;
+    }
+
+    .value-card h3 {
+      margin: 0;
+      font-size: 1rem;
+      line-height: 1.2;
+    }
+
+    .value-card p {
+      max-inline-size: 230px;
+      margin: var(--space-3) 0 0;
+      color: var(--color-text-muted);
+      font-size: 0.75rem;
+      line-height: 1.5;
+    }
+
+    .value-card a {
+      display: inline-block;
+      margin-block-start: 1rem;
+      color: var(--color-neutrals-900);
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .value-card a:hover,
+    .value-card a:focus-visible {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 900px) {
+      .values-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 700px) {
+      .values-header {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: var(--space-5);
+      }
+
+      .contact-button {
+        align-self: flex-start;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .about-values-inner {
+        padding-block: var(--space-8);
+      }
+
+      .values-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  }
+</style>

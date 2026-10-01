@@ -1,0 +1,209 @@
+---
+type FaqItem = {
+  question: string;
+  answer: string;
+};
+
+const faqData: FaqItem[] = await fetch("https://ftk-api.pages.dev/faq").then(
+  (res) => res.json(),
+);
+---
+
+<section class="about-faq" aria-labelledby="faq-title">
+  <div class="about-faq-inner">
+    <p class="eyebrow">FAQ</p>
+    <h2 id="faq-title">Customer Questions</h2>
+
+    <div class="faq-list">
+      {
+        faqData.map((item, index) => (
+          <details class="faq-item" open={index === 1}>
+            <summary>
+              <span>{item.question}</span>
+              <span class="faq-icon" aria-hidden="true" />
+            </summary>
+
+            <div class="faq-answer">
+              {item.answer.split("\n\n").map((paragraph) => (
+                <p>{paragraph}</p>
+              ))}
+            </div>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  @layer components {
+    .about-faq {
+      inline-size: 100%;
+      background-color: #ffffff;
+      color: var(--color-neutrals-900);
+    }
+
+    .faq-list {
+      overflow: hidden;
+      background-color: var(--color-neutrals-50);
+    }
+
+    .about-faq-inner {
+      max-inline-size: 1000px;
+      margin-inline: auto;
+      padding: 5rem 2rem;
+    }
+
+    .eyebrow {
+      margin: 0 0 var(--space-2);
+      color: var(--color-neutrals-900);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    .about-faq h2 {
+      margin: 0 0 2.5rem;
+      color: var(--color-neutrals-900);
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      text-align: center;
+    }
+
+    .faq-list {
+      overflow: hidden;
+      background-color: var(--color-surface-primary);
+    }
+
+    .faq-item {
+      block-size: 3.75rem;
+      overflow: hidden;
+      border-block-end: 1px solid var(--color-neutrals-200);
+      background-color: var(--color-neutrals-50);
+    }
+
+    .faq-item:last-child {
+      border-block-end: 0;
+    }
+
+    .faq-item summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      min-block-size: 3.75rem;
+      padding: 0 2rem;
+      color: var(--color-neutrals-900);
+      font-size: 0.8rem;
+      font-weight: 700;
+      line-height: 1.4;
+      cursor: pointer;
+      list-style: none;
+    }
+
+    .faq-item summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .faq-item summary::marker {
+      content: "";
+    }
+
+    .faq-icon {
+      position: relative;
+      flex: 0 0 auto;
+      inline-size: 1rem;
+      block-size: 1rem;
+    }
+
+    .faq-icon::before,
+    .faq-icon::after {
+      content: "";
+      position: absolute;
+      inset: 50% auto auto 50%;
+      inline-size: 0.8rem;
+      block-size: 1px;
+      background-color: var(--color-neutrals-900);
+      transform: translate(-50%, -50%);
+    }
+
+    .faq-icon::after {
+      transform: translate(-50%, -50%) rotate(90deg);
+      transition: transform 200ms ease;
+    }
+
+    .faq-item[open] .faq-icon::after {
+      transform: translate(-50%, -50%) rotate(0deg);
+    }
+
+    .faq-answer {
+      padding: 0 2rem 1.5rem;
+      color: var(--color-text-muted);
+      font-size: 0.75rem;
+      line-height: 1.5;
+    }
+
+    .faq-answer p {
+      max-inline-size: 700px;
+      margin: 0;
+    }
+
+    .faq-answer p + p {
+      margin-block-start: 0.75rem;
+    }
+
+    .faq-item summary:focus-visible {
+      outline: 2px solid var(--color-action);
+      outline-offset: -2px;
+    }
+
+    /*
+     * Progressive enhancement:
+     * Browser support for interpolate-size is limited.
+     * Without support, details still opens and closes normally.
+     */
+    @supports (interpolate-size: allow-keywords) {
+      .faq-list {
+        interpolate-size: allow-keywords;
+      }
+
+      .faq-item {
+        transition: block-size 250ms ease;
+      }
+
+      .faq-item[open] {
+        block-size: auto;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .about-faq-inner {
+        padding-block: var(--space-8);
+      }
+
+      .faq-item {
+        block-size: 4.5rem;
+      }
+
+      .faq-item summary {
+        min-block-size: 4.5rem;
+        padding-inline: 1.25rem;
+        font-size: 0.75rem;
+      }
+
+      .faq-answer {
+        padding-inline: 1.25rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .faq-item,
+      .faq-icon::after {
+        transition: none;
+      }
+    }
+  }
+</style>
