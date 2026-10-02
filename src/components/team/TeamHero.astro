@@ -1,0 +1,95 @@
+---
+
+---
+
+<section class="team-hero" aria-labelledby="team-title">
+  <div class="team-hero-inner">
+    <p class="eyebrow">TEAM</p>
+
+    <div class="title-wrapper">
+      <h1 id="team-title">The Consultors</h1>
+      <span class="yellow-line" aria-hidden="true"></span>
+    </div>
+
+    <p class="intro">
+      Our success stems from the synergy between dedicated teams and our valued
+      clients. We prioritize a company culture that fosters exceptional
+      productivity, ensures customer satisfaction.
+    </p>
+  </div>
+</section>
+
+<style>
+  .team-hero {
+    position: relative;
+    inline-size: 100%;
+    background-color: var(--color-neutrals-50);
+    color: var(--color-neutrals-900);
+  }
+
+  .team-hero-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-inline-size: 1200px;
+    margin-inline: auto;
+    padding: 4rem 2rem 4.5rem;
+    text-align: center;
+  }
+
+  .eyebrow {
+    margin: 0 0 var(--space-2);
+    color: var(--color-text-muted);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .title-wrapper {
+    position: relative;
+    display: inline-block;
+  }
+
+  .team-hero h1 {
+    position: relative;
+    z-index: 2;
+    margin: 0;
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+  }
+
+  .yellow-line {
+    position: absolute;
+    z-index: 1;
+    right: 0;
+    bottom: 0.25rem;
+    width: 100vw;
+    height: 4px;
+    background-color: var(--color-action);
+  }
+
+  .intro {
+    max-inline-size: 540px;
+    margin: var(--space-4) 0 0;
+    color: var(--color-text-muted);
+    font-size: 0.85rem;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 600px) {
+    .team-hero-inner {
+      padding: var(--space-7) 1.5rem var(--space-8);
+    }
+
+    .team-hero h1 {
+      font-size: clamp(1.8rem, 8vw, 2.4rem);
+    }
+
+    .intro {
+      max-inline-size: 450px;
+      font-size: 0.8rem;
+    }
+  }
+</style>

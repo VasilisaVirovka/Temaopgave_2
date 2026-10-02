@@ -1,0 +1,254 @@
+---
+type SocialLink = {
+  platform: string;
+  url: string;
+  icon: string;
+};
+
+type TeamMember = {
+  id: number;
+  name: string;
+  title: string;
+  description: string;
+  description_long: string;
+  past_experience: string;
+  social_links: SocialLink[];
+  slug: string;
+  image: {
+    src: string;
+    alt: string;
+    width: number;
+    height: number;
+  };
+};
+
+const teamData: TeamMember[] = await fetch(
+  "https://ftk-api.pages.dev/team",
+).then((res) => res.json());
+---
+
+<section class="team-members" aria-labelledby="team-members-title">
+  <div class="team-members-inner">
+    <div class="team-members-header">
+      <div class="team-members-heading">
+        <h2 id="team-members-title">Meet Our Great Team</h2>
+
+        <p>
+          Welcome to our amazing team! We are a group of passionate individuals
+          dedicated to excellence and innovation. Each member brings unique
+          skills and experiences, working together to achieve our goals. Join us
+          as we embark on exciting projects and create lasting impacts.
+        </p>
+      </div>
+
+      <a class="join-button" href="#contact">Join our team</a>
+    </div>
+
+    <div class="team-grid">
+      {
+        teamData.map((member) => (
+          <article class="team-card">
+            <div class="team-image">
+              <img
+                src={member.image.src}
+                alt={member.image.alt}
+                width={member.image.width}
+                height={member.image.height}
+                loading="lazy"
+              />
+
+              <span class="team-role">{member.title}</span>
+            </div>
+
+            <div class="team-content">
+              <h3>{member.name}</h3>
+
+              <p>{member.description}</p>
+
+              <div class="social-links">
+                {member.social_links.map((social) => (
+                  <a
+                    href={social.url}
+                    aria-label={`${member.name} on ${social.platform}`}
+                  >
+                    {social.platform}
+                  </a>
+                ))}
+              </div>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  @layer components {
+    .team-members {
+      inline-size: 100%;
+      background-color: var(--color-surface-primary);
+      color: var(--color-neutrals-900);
+    }
+
+    .team-members-inner {
+      max-inline-size: 1200px;
+      margin-inline: auto;
+      padding: 5rem 2rem;
+    }
+
+    .team-members-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 3rem;
+      margin-block-end: 3.5rem;
+    }
+
+    .team-members-heading {
+      max-inline-size: 650px;
+    }
+
+    .team-members h2 {
+      margin: 0;
+      color: var(--color-neutrals-900);
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+    }
+
+    .team-members-heading > p {
+      max-inline-size: 620px;
+      margin: var(--space-4) 0 0;
+      color: var(--color-text-muted);
+      font-size: 0.85rem;
+      line-height: 1.6;
+    }
+
+    .join-button {
+      flex: 0 0 auto;
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--radius-pill);
+      background-color: var(--color-neutrals-900);
+      color: var(--color-neutrals-50);
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .join-button:hover,
+    .join-button:focus-visible {
+      background-color: var(--color-action);
+      color: var(--color-neutrals-900);
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 3.5rem 2rem;
+    }
+
+    .team-card {
+      min-inline-size: 0;
+    }
+
+    .team-image {
+      position: relative;
+      aspect-ratio: 1;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      background-color: var(--color-surface-secondary);
+    }
+
+    .team-image img {
+      display: block;
+      inline-size: 100%;
+      block-size: 100%;
+      object-fit: cover;
+    }
+
+    .team-role {
+      position: absolute;
+      inset-inline-end: 0.75rem;
+      inset-block-end: 0.75rem;
+      padding: 0.45rem 0.75rem;
+      border-radius: var(--radius-pill);
+      background-color: var(--color-neutrals-900);
+      color: var(--color-neutrals-50);
+      font-size: 0.65rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .team-content {
+      padding-block-start: 1.25rem;
+      text-align: center;
+    }
+
+    .team-content h3 {
+      margin: 0;
+      color: var(--color-neutrals-900);
+      font-size: 1.1rem;
+      line-height: 1.2;
+    }
+
+    .team-content > p {
+      max-inline-size: 280px;
+      margin: 0.6rem auto 0;
+      color: var(--color-text-muted);
+      font-size: 0.75rem;
+      line-height: 1.5;
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-block-start: 1rem;
+    }
+
+    .social-links a {
+      color: var(--color-neutrals-900);
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-decoration: none;
+      text-transform: capitalize;
+    }
+
+    .social-links a:hover,
+    .social-links a:focus-visible {
+      color: var(--color-action);
+      text-decoration: underline;
+    }
+
+    @media (max-width: 900px) {
+      .team-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 700px) {
+      .team-members-header {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: var(--space-5);
+      }
+
+      .join-button {
+        align-self: flex-start;
+      }
+    }
+
+    @media (max-width: 550px) {
+      .team-members-inner {
+        padding-block: var(--space-8);
+      }
+
+      .team-grid {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+      }
+    }
+  }
+</style>
