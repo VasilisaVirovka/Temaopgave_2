@@ -1,0 +1,296 @@
+---
+type SocialLink = {
+  platform: string;
+  url: string;
+  icon: string;
+};
+
+type TeamMember = {
+  id: number;
+  name: string;
+  title: string;
+  description: string;
+  description_long: string;
+  past_experience: string;
+  social_links: SocialLink[];
+  slug: string;
+  image: {
+    src: string;
+    alt: string;
+    width: number;
+    height: number;
+  };
+};
+
+const { member } = Astro.props as {
+  member: TeamMember;
+};
+---
+
+<section class="team-detail" aria-labelledby="member-name">
+  <div class="team-detail-inner">
+    <a class="back-button" href="/team">
+      <span aria-hidden="true">←</span>
+      <span>Back to team</span>
+    </a>
+
+    <div class="team-detail-grid">
+      <div class="team-detail-media">
+        <span class="green-shape" aria-hidden="true"></span>
+
+        <div class="member-image">
+          <img
+            src={member.image.src}
+            alt={member.image.alt}
+            width={member.image.width}
+            height={member.image.height}
+          />
+        </div>
+
+        <div class="social-links">
+          {
+            member.social_links.map((social) => (
+              <a
+                href={social.url}
+                aria-label={`${member.name} on ${social.platform}`}
+              >
+                {social.platform}
+              </a>
+            ))
+          }
+        </div>
+      </div>
+
+      <article class="team-detail-content">
+        <header class="member-header">
+          <h1 id="member-name">{member.name}</h1>
+          <p class="member-title">{member.title}</p>
+        </header>
+
+        <p class="member-description">
+          {member.description_long}
+        </p>
+
+        <div class="content-divider"></div>
+
+        <section class="experience" aria-labelledby="experience-title">
+          <h2 id="experience-title">Past experience</h2>
+
+          <p>{member.past_experience}</p>
+        </section>
+      </article>
+    </div>
+  </div>
+</section>
+
+<style>
+  @layer components {
+    .team-detail {
+      inline-size: 100%;
+      background-color: var(--color-surface-primary);
+      color: var(--color-neutrals-900);
+    }
+
+    .team-detail-inner {
+      max-inline-size: 1000px;
+      margin-inline: auto;
+      padding: 2rem 2rem 6rem;
+    }
+
+    /* Back button */
+
+    .back-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-block-end: 3rem;
+      padding: 0.8rem 1.25rem;
+      border-radius: var(--radius-pill);
+      background-color: var(--color-neutrals-900);
+      color: var(--color-neutrals-50);
+      font-size: 0.75rem;
+      font-weight: 600;
+      line-height: 1;
+      text-decoration: none;
+    }
+
+    .back-button:hover,
+    .back-button:focus-visible {
+      background-color: var(--color-action);
+      color: var(--color-neutrals-900);
+    }
+
+    /* Main layout */
+
+    .team-detail-grid {
+      display: grid;
+      grid-template-columns: minmax(320px, 1fr) minmax(0, 1fr);
+      align-items: start;
+      gap: clamp(3rem, 6vw, 4rem);
+    }
+
+    /* Image */
+
+    .team-detail-media {
+      position: relative;
+      padding-inline-start: 1.75rem;
+    }
+
+    .green-shape {
+      position: absolute;
+      z-index: 0;
+      inset-inline-start: 0;
+      inset-block-start: -1.5rem;
+      inline-size: 7.5rem;
+      block-size: 7.5rem;
+      border-radius: var(--radius-md);
+      background-color: var(--color-green-400);
+    }
+
+    .member-image {
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+      inline-size: 100%;
+      max-inline-size: 350px;
+      aspect-ratio: 1;
+      border-radius: var(--radius-md);
+      background-color: var(--color-surface-secondary);
+    }
+
+    .member-image img {
+      display: block;
+      inline-size: 100%;
+      block-size: 100%;
+      object-fit: cover;
+    }
+
+    /* Social links */
+
+    .social-links {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      max-inline-size: 350px;
+      margin-block-start: 0.75rem;
+    }
+
+    .social-links a {
+      color: var(--color-neutrals-900);
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-decoration: none;
+      text-transform: capitalize;
+    }
+
+    .social-links a:hover,
+    .social-links a:focus-visible {
+      color: var(--color-action);
+      text-decoration: underline;
+    }
+
+    /* Content */
+
+    .member-header h1 {
+      margin: 0;
+      color: var(--color-neutrals-900);
+      font-size: clamp(2rem, 4vw, 2.5rem);
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+    }
+
+    .member-title {
+      margin: 0.4rem 0 0;
+      color: var(--color-text-muted);
+      font-size: 0.85rem;
+      line-height: 1.4;
+    }
+
+    .member-description {
+      max-inline-size: 500px;
+      margin: 2rem 0 0;
+      color: var(--color-text-muted);
+      font-size: 0.75rem;
+      line-height: 1.55;
+    }
+
+    /* Divider */
+
+    .content-divider {
+      inline-size: 100%;
+      block-size: 1px;
+      margin-block: 1.75rem;
+      background-color: var(--color-neutrals-200);
+    }
+
+    /* Past experience */
+
+    .experience h2 {
+      margin: 0;
+      color: var(--color-neutrals-900);
+      font-size: 1.5rem;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+    }
+
+    .experience p {
+      max-inline-size: 500px;
+      margin: 0.75rem 0 0;
+      color: var(--color-text-muted);
+      font-size: 0.75rem;
+      line-height: 1.55;
+    }
+
+    /* Responsive */
+
+    @media (max-width: 750px) {
+      .team-detail-inner {
+        padding-block: 1.5rem 4rem;
+      }
+
+      .back-button {
+        margin-block-end: 2.5rem;
+      }
+
+      .team-detail-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .team-detail-media {
+        max-inline-size: 500px;
+        margin-inline: auto;
+      }
+
+      .member-image {
+        max-inline-size: none;
+      }
+
+      .social-links {
+        max-inline-size: none;
+      }
+
+      .team-detail-content {
+        max-inline-size: 600px;
+        margin-inline: auto;
+      }
+    }
+
+    @media (max-width: 500px) {
+      .team-detail-inner {
+        padding-inline: 1.5rem;
+      }
+
+      .team-detail-media {
+        padding-inline-start: 1rem;
+      }
+
+      .green-shape {
+        inset-block-start: -1rem;
+        inline-size: 5rem;
+        block-size: 5rem;
+      }
+    }
+  }
+</style>

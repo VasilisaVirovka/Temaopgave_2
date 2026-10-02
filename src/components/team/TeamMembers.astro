@@ -47,7 +47,7 @@ const teamData: TeamMember[] = await fetch(
     <div class="team-grid">
       {
         teamData.map((member) => (
-          <article class="team-card">
+          <a class="team-card" href={`/team/${member.slug}`}>
             <div class="team-image">
               <img
                 src={member.image.src}
@@ -56,7 +56,6 @@ const teamData: TeamMember[] = await fetch(
                 height={member.image.height}
                 loading="lazy"
               />
-
               <span class="team-role">{member.title}</span>
             </div>
 
@@ -67,16 +66,16 @@ const teamData: TeamMember[] = await fetch(
 
               <div class="social-links">
                 {member.social_links.map((social) => (
-                  <a
-                    href={social.url}
+                  <span
+                    class="social-link"
                     aria-label={`${member.name} on ${social.platform}`}
                   >
                     {social.platform}
-                  </a>
+                  </span>
                 ))}
               </div>
             </div>
-          </article>
+          </a>
         ))
       }
     </div>
