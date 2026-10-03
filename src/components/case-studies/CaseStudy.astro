@@ -1,0 +1,418 @@
+---
+type ImageData = {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+  caption?: string;
+};
+
+type CaseDetails = {
+  caseName: string;
+  category: string;
+  date: string;
+  buttonLabel: string;
+  image: ImageData;
+};
+
+type CaseSection = {
+  title: string;
+  content: string | string[];
+  highlights?: string[];
+  image?: ImageData;
+};
+
+type CaseStudyData = {
+  id: number;
+  slug: string;
+  title: string;
+  caseDetails: CaseDetails;
+  sections: CaseSection[];
+};
+
+const { caseStudy } = Astro.props as {
+  caseStudy: CaseStudyData;
+};
+
+const projectOverview = caseStudy.sections.find(
+  (section) => section.title === "Project Overview",
+);
+
+const storyboard = caseStudy.sections.find(
+  (section) => section.title === "Storyboard",
+);
+
+const projectResult = caseStudy.sections.find(
+  (section) => section.title === "Project Result",
+);
+---
+
+<section class="case-hero">
+  <div class="case-hero-content">
+    <p class="eyebrow">CASE STUDIES</p>
+
+    <div class="title-wrapper">
+      <h1>{caseStudy.title}</h1>
+      <span class="title-line" aria-hidden="true"></span>
+    </div>
+
+    <p class="case-intro">
+      Our achievements reflect the close collaboration between our expert teams
+      and our esteemed clientele. We cultivate a workplace that champions peak
+      performance and guarantees client satisfaction.
+    </p>
+  </div>
+</section>
+
+<article class="case-study">
+  <div class="case-study-inner">
+    <figure class="case-hero-image">
+      <img
+        src={caseStudy.caseDetails.image.src}
+        alt={caseStudy.caseDetails.image.alt}
+        width={caseStudy.caseDetails.image.width}
+        height={caseStudy.caseDetails.image.height}
+      />
+    </figure>
+
+    <div class="case-meta">
+      <div class="meta-item">
+        <span class="meta-label">Case Name</span>
+        <span class="meta-value">{caseStudy.caseDetails.caseName}</span>
+      </div>
+
+      <div class="meta-item">
+        <span class="meta-label">Category</span>
+        <span class="meta-value">{caseStudy.caseDetails.category}</span>
+      </div>
+
+      <div class="meta-item">
+        <span class="meta-label">Date</span>
+        <span class="meta-value">{caseStudy.caseDetails.date}</span>
+      </div>
+
+      <a class="live-preview" href="#project-overview">
+        {caseStudy.caseDetails.buttonLabel}
+      </a>
+    </div>
+
+    <div class="case-content">
+      {
+        projectOverview && (
+          <section
+            id="project-overview"
+            class="case-section"
+            aria-labelledby="project-overview-title"
+          >
+            <h2 id="project-overview-title">{projectOverview.title}</h2>
+
+            {typeof projectOverview.content === "string" && (
+              <p>{projectOverview.content}</p>
+            )}
+
+            {projectOverview.highlights && (
+              <ul class="highlights">
+                {projectOverview.highlights.map((highlight) => (
+                  <li>{highlight}</li>
+                ))}
+              </ul>
+            )}
+          </section>
+        )
+      }
+
+      {
+        storyboard && (
+          <section
+            class="case-section storyboard"
+            aria-labelledby="storyboard-title"
+          >
+            <h2 id="storyboard-title">{storyboard.title}</h2>
+
+            {Array.isArray(storyboard.content) &&
+              storyboard.content.map((paragraph) => <p>{paragraph}</p>)}
+
+            {storyboard.image && (
+              <figure class="storyboard-image">
+                <img
+                  src={storyboard.image.src}
+                  alt={storyboard.image.alt}
+                  width={storyboard.image.width}
+                  height={storyboard.image.height}
+                />
+
+                {storyboard.image.caption && (
+                  <figcaption>{storyboard.image.caption}</figcaption>
+                )}
+              </figure>
+            )}
+          </section>
+        )
+      }
+
+      {
+        projectResult && (
+          <section class="case-section" aria-labelledby="project-result-title">
+            <h2 id="project-result-title">{projectResult.title}</h2>
+
+            {Array.isArray(projectResult.content) &&
+              projectResult.content.map((paragraph) => <p>{paragraph}</p>)}
+          </section>
+        )
+      }
+    </div>
+  </div>
+</article>
+
+<style>
+  @layer components {
+    .case-hero {
+      background-color: var(--color-surface-secondary);
+      padding-block: clamp(5rem, 10vw, 8rem) clamp(4rem, 8vw, 6rem);
+      text-align: center;
+    }
+
+    .case-hero-content {
+      max-inline-size: 900px;
+      margin-inline: auto;
+      padding-inline: 1.5rem;
+    }
+
+    .eyebrow {
+      margin: 0 0 1.25rem;
+      color: var(--color-text-muted);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+    }
+
+    .title-wrapper {
+      position: relative;
+      display: inline-block;
+    }
+
+    .title-wrapper h1 {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      color: var(--color-neutrals-900);
+      font-size: clamp(2.75rem, 7vw, 5rem);
+      line-height: 0.95;
+      letter-spacing: -0.05em;
+    }
+
+    .title-line {
+      position: absolute;
+      z-index: 0;
+      inset-block-end: 0.05em;
+      inset-inline-start: calc(-50vw + 50%);
+      inline-size: calc(50vw + 50%);
+      block-size: 0.35rem;
+      background-color: var(--color-action);
+    }
+
+    .case-intro {
+      max-inline-size: 700px;
+      margin: 2rem auto 0;
+      color: var(--color-text-muted);
+      font-size: 0.8rem;
+      line-height: 1.7;
+    }
+
+    .case-study {
+      background-color: var(--color-surface-primary);
+      color: var(--color-neutrals-900);
+    }
+
+    .case-study-inner {
+      max-inline-size: 1000px;
+      margin-inline: auto;
+      padding: clamp(3rem, 7vw, 6rem) 1.5rem;
+    }
+
+    .case-hero-image {
+      margin: 0;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+    }
+
+    .case-hero-image img {
+      display: block;
+      inline-size: 100%;
+      block-size: auto;
+    }
+
+    .case-meta {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr) auto;
+      align-items: center;
+      gap: 1.5rem;
+      max-inline-size: 900px;
+      margin: -3rem auto 0;
+      padding: 2rem;
+      border-radius: var(--radius-lg);
+      background-color: var(--color-neutrals-900);
+      color: var(--color-neutrals-50);
+    }
+
+    .meta-item {
+      display: grid;
+      gap: 0.35rem;
+    }
+
+    .meta-label {
+      color: var(--color-neutrals-400);
+      font-size: 0.65rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .meta-value {
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .live-preview {
+      justify-self: end;
+      padding: 0.75rem 1.25rem;
+      border-radius: var(--radius-pill);
+      background-color: var(--color-action);
+      color: var(--color-neutrals-900);
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .live-preview:hover,
+    .live-preview:focus-visible {
+      background-color: var(--color-yellow-600);
+    }
+
+    .case-content {
+      --flow-space: 4rem;
+
+      max-inline-size: 750px;
+      margin-inline: auto;
+      margin-block-start: 5rem;
+    }
+
+    .case-section {
+      margin: 0;
+    }
+
+    .case-section + .case-section {
+      margin-block-start: var(--flow-space);
+    }
+
+    .case-section h2 {
+      margin: 0;
+      color: var(--color-neutrals-900);
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1.05;
+      letter-spacing: -0.04em;
+    }
+
+    .case-section p {
+      margin-block-start: 1.5rem;
+      color: var(--color-text-muted);
+      font-size: 0.8rem;
+      line-height: 1.8;
+    }
+
+    .highlights {
+      display: grid;
+      gap: 1rem;
+      margin-block-start: 2rem;
+      padding: 0;
+      list-style: none;
+    }
+
+    .highlights li {
+      position: relative;
+      padding-inline-start: 1.5rem;
+      color: var(--color-text-muted);
+      font-size: 0.8rem;
+      line-height: 1.6;
+    }
+
+    .highlights li::before {
+      content: "";
+      position: absolute;
+      inset-inline-start: 0;
+      inset-block-start: 0.55em;
+      inline-size: 0.45rem;
+      block-size: 0.45rem;
+      border-radius: 50%;
+      background-color: var(--color-action);
+    }
+
+    .storyboard-image {
+      position: relative;
+      margin-block-start: 2.5rem;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+    }
+
+    .storyboard-image img {
+      display: block;
+      inline-size: 100%;
+      block-size: auto;
+    }
+
+    .storyboard-image figcaption {
+      position: absolute;
+      inset-inline: 0;
+      inset-block-end: 0;
+      padding: 3rem 1.5rem 1.5rem;
+      background: linear-gradient(to top, rgb(3 7 18 / 0.9), rgb(3 7 18 / 0));
+      color: var(--color-neutrals-50);
+      font-size: 0.75rem;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 750px) {
+      .case-meta {
+        grid-template-columns: 1fr 1fr;
+        margin-block-start: -2rem;
+      }
+
+      .live-preview {
+        justify-self: start;
+      }
+
+      .case-content {
+        margin-block-start: 4rem;
+      }
+    }
+
+    @media (max-width: 500px) {
+      .case-hero {
+        padding-block-start: 4rem;
+      }
+
+      .title-line {
+        block-size: 0.25rem;
+      }
+
+      .case-meta {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+        padding: 1.5rem;
+      }
+
+      .live-preview {
+        justify-self: start;
+      }
+
+      .storyboard-image figcaption {
+        position: static;
+        padding: 1rem;
+        background-color: var(--color-neutrals-900);
+      }
+    }
+  }
+</style>
