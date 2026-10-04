@@ -1,25 +1,27 @@
-<section class="about-stats" aria-label="Company statistics">
-  <div class="about-stats-inner">
+<section class="about-stats" aria-labelledby="stats-title">
+  <h2 id="stats-title" class="visually-hidden">Company statistics</h2>
+
+  <dl class="about-stats-inner">
     <div class="stat">
-      <strong>1128+</strong>
-      <span>Successful Work</span>
+      <dt>Successful Work</dt>
+      <dd>1128+</dd>
     </div>
 
     <div class="stat">
-      <strong>908+</strong>
-      <span>Team member</span>
+      <dt>Team member</dt>
+      <dd>908+</dd>
     </div>
 
     <div class="stat">
-      <strong>258+</strong>
-      <span>Happy Customers</span>
+      <dt>Happy Customers</dt>
+      <dd>258+</dd>
     </div>
 
     <div class="stat">
-      <strong>564+</strong>
-      <span>Creative Idea</span>
+      <dt>Creative Idea</dt>
+      <dd>564+</dd>
     </div>
-  </div>
+  </dl>
 </section>
 
 <style>
@@ -44,16 +46,18 @@
       text-align: center;
     }
 
-    .stat strong {
-      color: var(--color-neutrals-900);
-      font-size: 1.8rem;
-      line-height: 1;
-    }
-
-    .stat span {
+    .stat dt {
       color: var(--color-text-muted);
       font-size: 0.65rem;
       line-height: 1.2;
+    }
+
+    .stat dd {
+      order: -1;
+      margin: 0;
+      color: var(--color-neutrals-900);
+      font-size: 1.8rem;
+      line-height: 1;
     }
 
     @media (max-width: 700px) {

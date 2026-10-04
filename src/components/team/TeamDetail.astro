@@ -47,7 +47,7 @@ const { member } = Astro.props as {
           />
         </div>
 
-        <div class="social-links">
+        <nav class="social-links" aria-label="Social media">
           {
             member.social_links.map((social) => (
               <a
@@ -58,7 +58,7 @@ const { member } = Astro.props as {
               </a>
             ))
           }
-        </div>
+        </nav>
       </div>
 
       <article class="team-detail-content">

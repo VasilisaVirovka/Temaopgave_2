@@ -61,21 +61,21 @@ const { caseName, category, date, image, buttonLabel } = caseStudy.caseDetails;
         <a href="#0" class="button">{buttonLabel}</a>
       </div>
     </header>
-    <section class="case-story-content">
+    <div class="case-story-content">
       {
         caseStudy.sections.map((section, index) => (
-          <>
-            {index === 0 ? <h2>{section.title}</h2> : <h3>{section.title}</h3>}
+          <section
+            class="case-section"
+            aria-labelledby={`case-section-${index}`}
+          >
+            <h2 id={`case-section-${index}`}>{section.title}</h2>
 
             {Array.isArray(section.content) ? (
-              <>
-                {section.content.map((item) => (
-                  <p>{item}</p>
-                ))}
-              </>
+              section.content.map((item) => <p>{item}</p>)
             ) : (
               <p>{section.content}</p>
             )}
+
             {section.highlights && (
               <ul>
                 {section.highlights.map((highlight) => (
@@ -83,6 +83,7 @@ const { caseName, category, date, image, buttonLabel } = caseStudy.caseDetails;
                 ))}
               </ul>
             )}
+
             {section.image && (
               <figure>
                 <Image
@@ -96,10 +97,10 @@ const { caseName, category, date, image, buttonLabel } = caseStudy.caseDetails;
                 )}
               </figure>
             )}
-          </>
+          </section>
         ))
       }
-    </section>
+    </div>
   </article>
 </Layout>
 
@@ -245,12 +246,17 @@ const { caseName, category, date, image, buttonLabel } = caseStudy.caseDetails;
       padding: 5rem 1.5rem 6rem;
     }
 
-    .case-story-content > * + * {
+    .case-story-content {
+      max-inline-size: 750px;
+      margin-inline: auto;
+      padding: 5rem 1.5rem 6rem;
+    }
+
+    .case-section + .case-section {
       margin-block-start: var(--flow-space);
     }
 
-    .case-story-content h2,
-    .case-story-content h3 {
+    .case-story-content h2 {
       margin-block: 0;
       color: var(--color-neutrals-900);
       line-height: 1.1;
@@ -259,10 +265,6 @@ const { caseName, category, date, image, buttonLabel } = caseStudy.caseDetails;
 
     .case-story-content h2 {
       font-size: clamp(2rem, 4vw, 3rem);
-    }
-
-    .case-story-content h3 {
-      font-size: clamp(1.75rem, 3.5vw, 2.5rem);
     }
 
     .case-story-content p {
