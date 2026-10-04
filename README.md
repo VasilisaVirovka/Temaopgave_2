@@ -4,26 +4,28 @@ Se opgavebeskrivelsen på ItsLearning.
 
 ## Refleksion
 
-Skriv jeres fælles refleksion i [REFLEKSION.md](./REFLEKSION.md). Filen indeholder en kort Markdown-guide, en demo og en skabelon, I kan udfylde. Refleksionen skal ikke skrives i README.
+Skriv refleksionen i [REFLEKSION.md](./REFLEKSION.md).
+
+Refleksionen skal ikke skrives i README.
 
 ## Data i opgaven
 
 I opgaven skal du som udgangspunkt hente data fra API'et:
 
-[https://ftk-api.pages.dev](https://ftk-api.pages.dev)
+https://ftk-api.pages.dev
 
 API'et simulerer et eksternt data-endpoint, så du kan øve `fetch()`.
 
 Eksempel:
 
-```js
+```
 const response = await fetch("https://ftk-api.pages.dev/team");
 const team = await response.json();
 ```
 
 Du kan se de tilgængelige endpoints og eksempler her:
 
-[https://ftk-api.pages.dev/endpoints](https://ftk-api.pages.dev/endpoints)
+https://ftk-api.pages.dev/endpoints
 
 ## Sider i skabelonen
 
@@ -33,23 +35,25 @@ Du kan se de tilgængelige endpoints og eksempler her:
 - `src/pages/team/[slug].astro` → `/team/[slug]`: Data og grundindhold for den enkelte medarbejder.
 - `src/pages/case-studies/[slug].astro` → `/case-studies/[slug]`: Data og markup til caseartiklen.
 
-Siderne bruger `src/layouts/Layout.astro`. I skal selv bygge den fælles navigation og færdiggøre sidernes indhold, komponenter og styling.
+Siderne bruger `src/layouts/Layout.astro`. I projektet er navigation, indhold, komponenter og styling bygget videre på den udleverede skabelon.
 
-## Et enkelt eksempel: API-data i en komponent
+## API-data i komponenter
 
-Start med `src/components/Services.astro`, som allerede vises gennem `Hero.astro` på forsiden:
+Data hentes fra API'et med `fetch()` og bruges i Astro-komponenterne.
 
-1. I komponentens frontmatter hentes listen fra `/services` med `fetch()`, og svaret læses med `.json()`.
-2. `serviceData.map(...)` opretter en `ServiceCard` for hver service og sender data som en prop: `<ServiceCard service={service} />`.
-3. I `ServiceCard.astro` læses den med `const { service } = Astro.props`. Felterne bruges derefter i HTML, fx `<h2>{service.title}</h2>`.
+Eksempelvis hentes teamdata fra `/team`, hvorefter dataene bruges til at oprette de enkelte medarbejderkort og medarbejdersider.
 
-I dette statiske Astro-projekt hentes data ved build (og under udvikling på dev-serveren), ikke med JavaScript i brugerens browser. Brug mønstret som reference, når I bygger flere komponenter. Caseartiklen viser desuden, hvordan data bruges til at oprette sider med `getStaticPaths()`.
+I det statiske Astro-projekt hentes data ved build og under udvikling på dev-serveren. Dataene bliver derfor ikke hentet med JavaScript i brugerens browser.
+
+Case Study- og Team Member-siderne bruger dynamiske routes med `getStaticPaths()`.
+
+Astro bruger file-based routing, hvor filer i `src/pages/` danner routes ud fra deres placering og filnavn. Dynamiske routes som `[slug].astro` kan generere flere sider ud fra data ved build. [Astro – Routing](https://docs.astro.build/en/guides/routing/)
 
 ## Billeder fra API'et
 
 Billeder fra API'et returneres som billeddata:
 
-```json
+```
 {
   "image": {
     "src": "https://ftk-api.pages.dev/images/sarah.webp",
@@ -62,7 +66,7 @@ Billeder fra API'et returneres som billeddata:
 
 Skabelonen er sat op til at kunne bruge billeder fra `ftk-api.pages.dev` med Astros `Image`-komponent.
 
-```astro
+```
 ---
 import { Image } from "astro:assets";
 ---
@@ -76,7 +80,8 @@ import { Image } from "astro:assets";
 ```
 
 > [!NOTE]
-> Bemærk, at CaseStudy-siden allerede er sat op.
+> Bemærk, at Case Study-siden allerede var sat op i skabelonen.
+>
 > Bemærk også, at ikke alle billeder fra Figma-filen findes i API'et.
 
 ## Brug af hjælpekomponenter
@@ -87,36 +92,33 @@ import { Image } from "astro:assets";
 
 API'et returnerer fx:
 
-```json
+```
 {
   "platform": "instagram",
   "icon": "instagram"
 }
 ```
 
-Det matcher en lokal SVG-fil i `src/icons/`:
-
-```txt
-src/icons/instagram.svg
-src/icons/facebook.svg
-src/icons/layers.svg
-```
+Det matcher en lokal SVG-fil i `src/icons/`.
 
 Eksempel:
 
-```astro
+```
 ---
 import DynamicIcon from "@helpers/DynamicIcon.astro";
 ---
 
 {employee.social_links.map((link) => (
   <a href={link.url} aria-label={link.platform}>
-    <DynamicIcon name={link.icon} width={24} height={24} class="social-icon" />
+    <DynamicIcon
+      name={link.icon}
+      width={24}
+      height={24}
+      class="social-icon"
+    />
   </a>
 ))}
 ```
-
-Foruden `name`-prop'en, som er obligatorisk, forwarder komponenten øvrige props direkte til SVG-komponenten. Du kan derfor fx sende `class`, `width`, `height` og lignende med.
 
 Hvis ikonet ikke findes, vises der ikke noget output, og komponenten logger en advarsel i konsollen.
 
@@ -124,7 +126,7 @@ Hvis ikonet ikke findes, vises der ikke noget output, og komponenten logger en a
 
 Nogle datafelter indeholder linkdata, fx:
 
-```json
+```
 {
   "link": {
     "text": "Read More",
@@ -133,15 +135,15 @@ Nogle datafelter indeholder linkdata, fx:
 }
 ```
 
-Du kan bruge dem sådan:
+De kan bruges sådan:
 
-```astro
+```
 <a href={item.link.url}>{item.link.text}</a>
 ```
 
-Hvis et link kun indeholder et ikon og ingen synlig tekst, skal du give linket et tilgængeligt navn, fx med `aria-label`.
+Hvis et link kun indeholder et ikon og ingen synlig tekst, skal linket have et tilgængeligt navn, fx med `aria-label`.
 
-```astro
+```
 <a href={link.url} aria-label={link.platform}>
   <DynamicIcon name={link.icon} />
 </a>
@@ -149,9 +151,9 @@ Hvis et link kun indeholder et ikon og ingen synlig tekst, skal du give linket e
 
 ## Import af SVG-ikoner direkte
 
-Du kan også importere SVG-ikoner direkte i dine komponenter:
+SVG-ikoner kan også importeres direkte i komponenterne:
 
-```astro
+```
 ---
 import Checkmark from "@icons/checkmark.svg";
 ---
@@ -163,34 +165,15 @@ Se evt. `src/pages/svgs.astro` for flere eksempler på direkte import og brug af
 
 ---
 
----
-
----
-
 ## Lokal backup-data
 
 Der ligger også lokale JSON-filer i `src/data/`. De kan bruges som backup, hvis API'et ikke virker, eller hvis du vil teste uden netværkskald.
 
 Dokumentation til lokal data findes her:
 
-[https://ftk-api.pages.dev/local.html](https://ftk-api.pages.dev/local.html)
+https://ftk-api.pages.dev/local.html
 
-Bemærk, at lokal data ikke nødvendigvis har præcis samme struktur som API-svarene. API'et kan fx normalisere data, gøre billedstier absolutte eller returnere lister direkte.
-
-Eksempel med lokal data:
-
-```astro
----
-import employees from "@data/employees.json";
----
-
-{employees.map((employee) => (
-  <article>
-    <h2>{employee.name}</h2>
-    <p>{employee.title}</p>
-  </article>
-))}
-```
+Bemærk, at lokal data ikke nødvendigvis har præcis samme struktur som API-svarene.
 
 ### DynamicImage.astro (`@helpers/DynamicImage.astro`)
 
@@ -198,23 +181,65 @@ import employees from "@data/employees.json";
 
 Du skal som udgangspunkt ikke bruge `DynamicImage` til billeder fra API'et, fordi API'et allerede returnerer offentlige billed-URL'er og dimensioner. Brug i stedet Astros `Image`-komponent som vist ovenfor.
 
-`DynamicImage` kan stadig bruges, hvis du vælger at arbejde med lokal backup-data, hvor billedstierne peger på lokale filer i projektet.
-
-Eksempel med lokal data, hvis billedstien ligger i et lokalt `img`-felt:
-
-```astro
----
-import DynamicImage from "@helpers/DynamicImage.astro";
-import employees from "@data/employees.json";
 ---
 
-{employees.map((employee) => (
-  <DynamicImage
-    src={employee.img}
-    alt={employee.name}
-    width={300}
-    height={320}
-    class="employee-image"
-  />
-))}
+# Den færdige løsning
+
+Projektet er udviklet som en responsiv AskExperts-website med udgangspunkt i det udleverede Figma-design.
+
+## Sider
+
+Projektet indeholder:
+
+- `/` – Forside
+- `/about` – About
+- `/team` – Team
+- `/team/[slug]` – Individuel medarbejder
+- `/case-studies/taxes-and-efficiency` – Case Study
+
+Derudover indeholder projektet de routes og hjælpefiler, som følger med den udleverede skabelon.
+
+## Teknologier
+
+Projektet er udviklet med:
+
+- Astro
+- HTML
+- CSS
+- REST API
+- Git og GitHub
+- Netlify
+
+Der er blandt andet arbejdet med:
+
+- responsive layouts
+- CSS custom properties
+- design tokens
+- CSS Grid
+- container queries
+- `--flow-space`
+- `<details>` og `<summary>`
+- Popover API
+- CSS Anchor Positioning
+- progressive enhancement
+- genanvendelige Astro-komponenter
+
+## Deployment
+
+Den færdige løsning er deployet til Netlify:
+
+[Åbn den færdige AskExperts-side](https://temaopgave-figma-til-kode-askexperts.netlify.app/)
+
+## Build
+
+Produktionsbuilden testes med:
+
 ```
+npm run build
+```
+
+Builden skal gennemføre uden fejl, før projektet afleveres.
+
+## Dokumentation
+
+De faglige refleksioner over de valgte teknikker, test, ændringer undervejs og brug af AI findes i [REFLEKSION.md](./REFLEKSION.md).
