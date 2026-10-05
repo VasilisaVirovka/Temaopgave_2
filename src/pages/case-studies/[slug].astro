@@ -249,9 +249,13 @@ const { caseName, category, date, image, buttonLabel } = caseStudy.caseDetails;
     padding: 5rem 1.5rem 6rem;
   }
 
-  .case-section + .case-section {
-    margin-block-start: var(--flow-space);
-  }
+  .case-section {
+  grid-column: 1 / -1;
+}
+
+.case-section + .case-section {
+  margin-block-start: var(--flow-space);
+}
 
   .case-story-content h2 {
     margin: 0;
