@@ -24,7 +24,7 @@ const experienceData: ExperienceData = await fetch(
       <h2 id="experience-title">{experienceData.title}</h2>
 
       <div class="clients">
-        <span> 3000+ our clients are insured around the World</span>
+        <span>3000+ our clients are insured around the World</span>
       </div>
     </div>
 
@@ -34,10 +34,11 @@ const experienceData: ExperienceData = await fetch(
           <figure
             class="stat-card"
             data-value={stat.value}
-            style={`--value: ${stat.value}; --value-percent: ${stat.value}%;`}
+            style={`--value: ${stat.value}; --value-percent: ${stat.value}%; --value-number: ${stat.value};`}
           >
             <div class="stat-graphic">
               <svg viewBox="0 0 100 100" aria-hidden="true">
+                <circle class="track" />
                 <circle class="progress" pathLength="100" />
                 <circle class="marker" r="3" />
               </svg>
@@ -50,6 +51,46 @@ const experienceData: ExperienceData = await fetch(
     </div>
   </div>
 </section>
+
+<script>
+  const supportsOffsetPath = CSS.supports(
+    "offset-path: circle(46px at 50px 50px)",
+  );
+
+  if (!supportsOffsetPath) {
+    document.querySelectorAll<HTMLElement>(".stat-card").forEach((card) => {
+      const value = Number(card.dataset.value ?? 0);
+
+      const progress = card.querySelector<SVGCircleElement>(".progress");
+      const marker = card.querySelector<SVGCircleElement>(".marker");
+
+      if (!progress || !marker) return;
+
+      card.classList.add("chart-fallback");
+
+      /*
+       * Firefox fallback:
+       * Draw the progress circle directly with SVG attributes
+       * and calculate the marker position with JavaScript.
+       */
+
+      progress.style.strokeDasharray = `${value} 100`;
+      progress.style.strokeDashoffset = "0";
+
+      const radius = 46;
+      const center = 50;
+
+      const angle = (value / 100) * 360 - 90;
+      const radians = (angle * Math.PI) / 180;
+
+      const x = center + radius * Math.cos(radians);
+      const y = center + radius * Math.sin(radians);
+
+      marker.setAttribute("cx", String(x));
+      marker.setAttribute("cy", String(y));
+    });
+  }
+</script>
 
 <style>
   @layer components {
@@ -121,7 +162,11 @@ const experienceData: ExperienceData = await fetch(
         "label";
       justify-items: center;
       margin: 0;
+
+      /* Container query requirement */
       container-type: inline-size;
+
+      --value-number: 0;
     }
 
     .stat-card::before {
@@ -148,22 +193,47 @@ const experienceData: ExperienceData = await fetch(
       rotate: -90deg;
     }
 
+    /*
+     * Original visual solution.
+     * This remains active in Chrome and other browsers
+     * that support the modern CSS solution.
+     */
+
+    .track,
     .progress {
       cx: 50;
       cy: 50;
       r: 46;
       fill: none;
+      stroke-width: 4;
+    }
+
+    .track {
+      stroke: color-mix(in srgb, var(--color-neutrals-900) 15%, transparent);
+    }
+
+    .progress {
       stroke: white;
-      stroke-width: 2;
-      stroke-dasharray: 100;
-      stroke-dashoffset: calc(100 - var(--value));
       stroke-linecap: round;
+      stroke-dasharray: var(--value-number) 100;
     }
 
     .marker {
       fill: var(--color-neutrals-900);
       offset-path: circle(46px at 50px 50px);
-      offset-distance: var(--value-percent);
+      offset-distance: calc(var(--value-number) * 1%);
+    }
+
+    /*
+     * Firefox fallback.
+     *
+     * Only the marker positioning is replaced.
+     * The normal Chrome solution above is untouched.
+     */
+
+    .chart-fallback .marker {
+      offset-path: none;
+      offset-distance: 0;
     }
 
     .stat-card figcaption {
@@ -177,8 +247,7 @@ const experienceData: ExperienceData = await fetch(
     @media (max-width: 800px) {
       .experience-inner {
         grid-template-columns: 1fr;
-        gap: 3rem;
-        padding-block: 4rem;
+        gap: 2rem;
       }
 
       .experience-content {
@@ -186,17 +255,29 @@ const experienceData: ExperienceData = await fetch(
       }
 
       .experience-stats {
-        justify-content: center;
+        gap: 1rem;
       }
     }
 
     @media (max-width: 500px) {
       .experience-inner {
-        padding-inline: 1.5rem;
+        padding: 2rem 1rem;
       }
 
       .experience-stats {
-        gap: 1rem;
+        gap: 0.5rem;
+      }
+
+      .stat-card::before {
+        font-size: 20cqw;
+      }
+
+      .stat-graphic {
+        inline-size: min(110px, 100%);
+      }
+
+      .stat-card figcaption {
+        font-size: 0.75rem;
       }
     }
   }
