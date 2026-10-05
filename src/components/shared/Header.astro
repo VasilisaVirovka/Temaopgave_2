@@ -61,6 +61,29 @@ import LoginButton from "@components/shared/LoginButton.astro";
 
     .logo span:last-child {
       color: var(--color-action);
+      transition: color 150ms ease;
+    }
+
+    /*
+     * Relative Color Syntax
+     *
+     * Creates a slightly darker version of the existing
+     * --color-action token on hover/focus.
+     */
+    .logo:hover span:last-child,
+    .logo:focus-visible span:last-child {
+      color: hsl(from var(--color-action) h s calc(l - 10%));
+    }
+
+    /*
+     * Fallback for browsers that do not support
+     * Relative Color Syntax.
+     */
+    @supports not (color: hsl(from red h s l)) {
+      .logo:hover span:last-child,
+      .logo:focus-visible span:last-child {
+        color: var(--color-action);
+      }
     }
 
     .nav-links {
@@ -125,3 +148,4 @@ import LoginButton from "@components/shared/LoginButton.astro";
     }
   }
 </style>
+
