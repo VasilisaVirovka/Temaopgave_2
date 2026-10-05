@@ -1,4 +1,10 @@
-<button class="login-button" type="button" popovertarget="login-popover">
+<button
+  class="login-button"
+  type="button"
+  popovertarget="login-popover"
+  aria-controls="login-popover"
+  aria-expanded="false"
+>
   Login
 </button>
 
@@ -23,6 +29,49 @@
   </div>
 </div>
 
+<script is:inline>
+  const loginButton = document.querySelector(".login-button");
+  const loginPopover = document.querySelector("#login-popover");
+
+  if (loginButton && loginPopover) {
+    const supportsPopover = "popover" in HTMLElement.prototype;
+
+    if (!supportsPopover) {
+      loginButton.removeAttribute("popovertarget");
+
+      loginPopover.classList.add("popover-fallback");
+
+      loginButton.addEventListener("click", () => {
+        const isOpen = loginPopover.classList.toggle("is-open");
+
+        loginButton.setAttribute("aria-expanded", String(isOpen));
+      });
+
+      document.addEventListener("click", (event) => {
+        if (
+          loginPopover.classList.contains("is-open") &&
+          !loginPopover.contains(event.target) &&
+          !loginButton.contains(event.target)
+        ) {
+          loginPopover.classList.remove("is-open");
+          loginButton.setAttribute("aria-expanded", "false");
+        }
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (
+          event.key === "Escape" &&
+          loginPopover.classList.contains("is-open")
+        ) {
+          loginPopover.classList.remove("is-open");
+          loginButton.setAttribute("aria-expanded", "false");
+          loginButton.focus();
+        }
+      });
+    }
+  }
+</script>
+
 <style>
   @layer components {
     .login-button {
@@ -44,11 +93,9 @@
       background: var(--color-action);
     }
 
-    /* Login popover */
     .login-popover {
       position: fixed;
       inset: auto;
-      margin: 0;
 
       inline-size: min(520px, calc(100vw - 2rem));
 
@@ -60,8 +107,31 @@
       color: var(--color-neutrals-900);
       box-shadow: 0 1rem 3rem rgb(0 0 0 / 15%);
 
-      position-area: bottom;
-      margin-block-start: 0.6rem;
+      z-index: 1000;
+
+      /*
+       * Fallback for browsers without the Popover API.
+       * Hidden until the Login button is pressed.
+       */
+      &.popover-fallback {
+        display: none;
+      }
+
+      &.popover-fallback.is-open {
+        display: block;
+      }
+    }
+
+    /*
+     * Modern Anchor Positioning.
+     * Used when supported by the browser.
+     */
+    @supports (position-area: bottom) {
+      .login-popover {
+        inset: auto;
+        position-area: bottom;
+        margin-block-start: 0.6rem;
+      }
     }
 
     .login-content {
